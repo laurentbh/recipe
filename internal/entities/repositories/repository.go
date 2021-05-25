@@ -15,7 +15,7 @@ type Repository interface {
 
 	IngredientByName(name string) (*models.Ingredient, error)
 	IngredientById(id int64) (*models.Ingredient, error)
-	IngredientCreate(name string) (models.Ingredient, error)
+	IngredientCreate(name string, attributes map[string]string) (models.Ingredient, error)
 	IngredientAll() ([]models.Ingredient, error)
 	IngredientByIdRelations(id int64, candidate []interface{}) ([]whiterabbit.Relation, error)
 
