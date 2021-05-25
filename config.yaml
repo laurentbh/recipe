@@ -1,0 +1,29 @@
+storage: neo4j
+
+neo4j:
+  host: localhost
+  user: neo4j
+  password: root
+  
+#mysql:
+#  host: testHost
+#  user: root
+#  password: root
+#  database: recipe
+
+elastic:
+  host: http://localhost:9200
+  index: food
+  recipeType: recipe
+#  user:
+#  pass:
+
+server:
+  port: 8080
+
+logging:
+  ConsoleEnabled: true
+  FileEnabled: false
+  Directory: log
+  Filename: recipe.log
+  MaxSize: 1

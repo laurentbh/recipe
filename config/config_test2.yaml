@@ -1,0 +1,16 @@
+storage: neo4j
+
+neo4j:
+  host: localhost
+  user: neo4j
+  password: root
+
+server:
+  port: 80
+
+logging:
+  consoleEnabled: false
+  jsonEnabled: true
+  directory: logDir
+  filename: recipeName
+  maxSize: 4
