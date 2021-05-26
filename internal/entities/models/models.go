@@ -16,7 +16,7 @@ const Bypass string = "ByPass"
 var All = map[string]interface{}{
 	"Ingredient": Ingredient{},
 	"Category":   Category{},
-	"Ustensil":   Ustensil{},
+	"Utensil":   Utensil{},
 	"Ignore":     Ignore{},
 }
 
@@ -30,9 +30,9 @@ func GetNodeTypeAndID(val interface{}) (string, int64) {
 	if ok {
 		return "Category", c.ID
 	}
-	u, ok := val.(Ustensil)
+	u, ok := val.(Utensil)
 	if ok {
-		return "Ustensil", u.ID
+		return "Utensil", u.ID
 	}
 	ig, ok := val.(Ignore)
 	if ok {

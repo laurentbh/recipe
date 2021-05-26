@@ -13,8 +13,8 @@ type Repository interface {
 	CategoryByName(name string) (models.DBEntity, error)
 	CategoryAll() ([]models.Category, error)
 
-	IngredientByName(name string) (*models.Ingredient, error)
-	IngredientById(id int64) (*models.Ingredient, error)
+	IngredientByName(name string) (models.DBEntity, error)
+	IngredientById(id int64) (models.DBEntity, error)
 	IngredientCreate(name string, attributes map[string]string) (models.Ingredient, error)
 	IngredientAll() ([]models.Ingredient, error)
 	IngredientByIdRelations(id int64, candidate []interface{}) ([]whiterabbit.Relation, error)
