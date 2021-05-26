@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//const utensil = "utensil"
+const utensil = "utensil"
 
 // DeleteUtensil ...
 func (s *Server) DeleteUtensil(ctx *gin.Context) {
@@ -18,9 +18,7 @@ func (s *Server) DeleteUtensil(ctx *gin.Context) {
 		ctx.JSON(500, gin.H{"message": err.Error()})
 		return
 	}
-	// TODO
-	//s.PushDelete(utensil, id)
-
+	s.PushDelete(utensil, id)
 }
 
 // NewUtensil ...
@@ -32,13 +30,12 @@ func (s *Server) NewUtensil(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
-	_, err = s.Database.UtensilCreate(e.Name, e.Attributes)
+	newUtensil, err := s.Database.UtensilCreate(e.Name, e.Attributes)
 	if err != nil {
 		ctx.JSON(500, gin.H{"message": err.Error()})
 		return
 	}
-	// TODO
-	//s.PushNewEntity(utensil, newIngr)
+	s.PushNewEntity(utensil, newUtensil)
 	return
 }
 

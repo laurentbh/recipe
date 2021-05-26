@@ -34,13 +34,12 @@ func (s *Server) NewIngredient(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
-	_, err = s.Database.IngredientCreate(e.Name, e.Attributes)
+	newIngredient, err := s.Database.IngredientCreate(e.Name, e.Attributes)
 	if err != nil {
 		ctx.JSON(500, gin.H{"message": err.Error()})
 		return
 	}
-	// TODO
-	//s.PushNewEntity(ingredient, newIngr)
+	s.PushNewEntity(ingredient, newIngredient)
 	return
 }
 

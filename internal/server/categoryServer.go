@@ -32,13 +32,12 @@ func (s *Server) NewCategory(context *gin.Context) {
 		context.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
-	_, err = s.Database.CategoryCreate(e.Name, e.Attributes)
+	newCategory, err := s.Database.CategoryCreate(e.Name, e.Attributes)
 	if err != nil {
 		context.JSON(500, gin.H{"message": err.Error()})
 		return
 	}
-	// TODO
-	//s.PushNewEntity("category", newCat)
+	s.PushNewEntity("category", newCategory)
 	return
 }
 
@@ -50,7 +49,6 @@ func (s *Server) DeleteCategory(context *gin.Context) {
 		context.JSON(500, gin.H{"message": err.Error()})
 		return
 	}
-	//TODO
-	//s.PushDelete("category", id)
+	s.PushDelete("category", id)
 }
 
