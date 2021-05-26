@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option go_package = "github.com/laurentbh/recipe/parsing";
+
+package parsing;
+
+message ParsingRequest {
+    string input = 1;
+}
+
+message ParsingResult {
+    string  word = 1;
+    int32   position = 2;
+    int32   index = 3;
+    bool    identified = 4;
+    string  entity = 5;
+    int64   id = 6;
+}
+message ParsingResponse {
+    repeated ParsingResult results = 1;
+}
+
+service Parser {
+    rpc Parse (ParsingRequest) returns (ParsingResponse);
+    rpc StreamParse(ParsingRequest) returns (stream ParsingResult);
+}
