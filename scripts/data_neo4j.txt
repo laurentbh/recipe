@@ -72,6 +72,7 @@ ON (n:Ingredient)
 ASSERT n.Name IS UNIQUE;
 
 
+MATCH (u:Utensil ) DELETE u;
 CREATE (n:Utensil{Name: "bean cooker"});
 CREATE (n:Utensil{Name: "blender"});
 CREATE (n:Utensil{Name: "food processor"});
