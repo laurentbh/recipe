@@ -1,0 +1,55 @@
+version: '3'
+
+volumes:
+  recipe_elastic:
+    external: true
+  recipe_neo4j:
+    external: true
+
+services:
+  neo4j:
+    image: neo4j:4.2.6
+    hostname: neo4j
+    container_name: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - recipe_neo4j:/data
+    environment:
+      NEO4J_AUTH: neo4j/root
+
+  envoy:
+    image: envoyproxy/envoy:v1.15.0
+    hostname: envoy
+    container_name: envoy
+    ports: 
+      - "9090:9090"
+      - "9901:9901"
+    volumes:
+      - ./front-end/envoy.yaml:/etc/envoy/envoy.yaml  
+
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: es01
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      # - node.name=es01
+        # - cluster.name=es-docker-cluster
+        # - discovery.seed_hosts=es01
+        # - cluster.initial_master_nodes=es01
+        # - bootstrap.memory_lock=true
+        # - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - recipe_elastic:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  networks:
+    recipe
