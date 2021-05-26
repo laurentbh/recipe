@@ -1,0 +1,90 @@
+curl http://localhost:9200/food/recipe \
+-H 'Content-Type: application/json' \
+-d '{
+"title": "Easy Whole-Wheat Pie Crust",
+"ingredients": ["2 1/4 cups whole-wheat flour", "3/4 up butter, melted", "3/4 teaspoon salt", "3 tablespoons milk"],
+"instruction":"In a 9-inch pie pan, combine all crust ingredients and mix with a fork.\nUse your hands to finish the mixing and then form a ball in the pan.\nPress it into the pan and bring it up on the sides, and then pinch the top (with your finger or a fork)."
+}
+'
+
+
+curl http://localhost:9200/food/recipe \
+-H 'Content-Type: application/json' \
+-d '{
+"title": "Mousse Au Chocolat",
+"ingredients": ["½ pound semisweet chocolate",
+               "6 ounces butter, cut in small pieces",
+               "6 large eggs, separated",
+               "½ cup superfine sugar",
+               "1 pinch salt"],
+"total_time" : "20 minutes",
+"instruction":"1.  Cut the chocolate into one-inch pieces and place in a saucepan. Set the saucepan into a larger one with almost boiling water. Let melt over low heat. When melted, add the butter. Blend well. Remove from the heat and let cool for a few minutes.\n2.  Meanwhile, place the egg yolks and the sugar in a large mixing bowl. Beat well with a wire whisk for about four minutes, until very thick and lemon-colored.\n3.  Add the chocolate mixture to the yolks and blend well with a rubber spatula.\n4.  Beat the egg whites with salt until stiff. Do not overbeat. Fold them into the chocolate mixture. Spoon the mousse into a serving bowl and chill until ready to serve.",
+"tips": ["This mousse can be made 24 hours before serving; if made the same day, allow four hours for cooling in the refrigerator."],
+"references":[{"name":"Ingredient Substitution Guide", "link": "https://cooking.nytimes.com/guides/79-substitutions-for-cooking"}]
+}
+'
+
+
+
+curl http://localhost:9200/food/recipe \
+-H 'Content-Type: application/json' \
+-d '{
+"title": "Bacon Cheddar Chive Biscuits",
+"ingredients": [ "6 slices bacon, diced",
+"4 cups all-purpose flour",
+"4 ounces shredded extra-sharp cheddar cheese",
+"1/4 cup chopped fresh chives",
+"4 teaspoons baking powder",
+"1 1/2 teaspoons kosher salt",
+"1 teaspoon baking soda",
+"3/4 cup unsalted butter, frozen",
+"1 3/4 cups buttermilk"],
+"total_time" : "1 hour 10 minutes",
+"cook_time" : "25 minutes",
+"prep_time" : "45 minutes",
+"yield": "12 servings",
+"instruction":
+"1.  Preheat oven to 450 degrees F. Line a baking sheet with parchment paper or a silicone baking mat.\n2.  Heat a large skillet over medium high heat. Add bacon and cook until brown and crispy, about 6-8 minutes. Drain excess fat; transfer bacon to a paper towel-lined plate.\n3.  In a large bowl, combine bacon, flour, cheese, chives, baking powder, salt and baking soda.\n4.  Grate butter using the large holes of a box grater. Stir into the flour mixture.\n5.  Add buttermilk and stir using a rubber spatula until a soft dough forms.\n6.  Working on a lightly floured surface, knead the dough 3-4 times until it comes together. Using a rolling pin, roll the dough into a 1 1/4-inch thick rectangle. Cut out 10-12 rounds using a 2 1/2-inch biscuit or cookie cutter. Place biscuits onto the prepared baking sheet; place in the freezer for 15 minutes.\n7.  Remove biscuits from freezer. Place into oven and bake for 15-18 minutes, or until golden brown.\n8.  Serve warm."
+}
+'
+
+curl http://localhost:9200/food/recipe \
+-H 'Content-Type: application/json' \
+-d '{
+"title": "Clementine Cake",
+"ingredients": [
+"5 medium clementines (about 375 grams)",
+"Spray cooking oil",
+"6 large eggs",
+"1 cup sugar (so use half)",
+"1 teaspoon salt",
+"2 cups almond flour or very finely ground blanched almonds",
+"2 teaspoons baking powderpuff",
+" Powdered sugar, chocolate glaze or candied clementines, for garnish"],
+"cook_time" : "1 hour",
+"instruction":
+"1. Place whole unpeeled clementines in a large pot, cover with cold water and bring to a boil over high heat. Reduce heat tot low, cover and simmer gently for 2 hours, adding more water as needed. Remove clementines with a slotted spoon and, once cool enough to handle, halve and remove any seeds or other hard bits. Purée in a food processor or blender and set aside. (May be done up to 2 days ahead and refrigerated.)\n2. Heat oven to 350 degrees. Spray a 9-inch springform pan with cooking oil, line bottom with parchment paper and spray paper with oil.\n3. In a large bowl, whisk the eggs together with the sugar, salt and clementine purée. Add the almond flour and baking powder and stir until just combined.\n4. Pour into prepared pan and bake until edges are golden brown and starting to pull away from sides of pan, about 1 hour. Transfer to wire rack set over baking sheet. After 10 minutes, run a knife around edge of pan to loosen cake; remove cake from pan. Peel off parchment paper and return cake to wire rack to cool completely. Decorate with dusting of powdered sugar, or with chocolate glaze and/or candied clementines.\n"
+}
+'
+
+curl -H 'Content-Type: application/json' http://localhost:8080/recipe \
+-d '{
+"title": "test_1",
+"ingredients": ["ing1","ing2"]
+}'
+
+curl -X PUT -H 'Content-Type: application/json' http://localhost:8080/recipe/thgNJHkB7PxS6_2JhGzm \
+-d '{
+"title": "test_1",
+"ingredients": ["ing1","ing2", "ing3"]
+}'
+
+curl -X POST -H 'Content-Type: application/json'  http://localhost:9200/food/_update/thgNJHkB7PxS6_2JhGzm  \
+-d '{
+"doc": {
+"title": "another new title",
+"ingredients": ["ing5", "ing6"]
+}
+}'
+
+curl -X GET -H 'Accept: application/json' http://localhost:8080/recipe?ingredient=butter&ingredient=chocolate
