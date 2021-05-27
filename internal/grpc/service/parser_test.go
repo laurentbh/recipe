@@ -2,7 +2,7 @@ package handler
 
 import (
 	"context"
-	"github.com/laurentbh/recipe/internal/service/parsing"
+	"github.com/laurentbh/recipe/internal/grpc/parsing"
 	"log"
 	"net"
 	"testing"

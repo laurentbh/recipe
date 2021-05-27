@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/laurentbh/recipe/config"
 	"github.com/laurentbh/recipe/internal"
-	"github.com/laurentbh/recipe/internal/server"
+	"github.com/laurentbh/recipe/internal/http"
 	"github.com/rs/zerolog/log"
 	"strconv"
 )
@@ -37,7 +37,7 @@ func main() {
 	router.Use(logger.SetLogger(ginLogCfg))
 	//p.Use(router)
 	router.Use(cors.Default())
-	s, err := server.New(cfg, mainLogger)
+	s, err := http.New(cfg, mainLogger)
 	if err != nil {
 		log.Panic().Err(err).Msg("Can't start")
 	}

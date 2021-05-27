@@ -3,7 +3,7 @@ package handler
 import (
 	"context"
 	"github.com/laurentbh/recipe/internal/entities/repositories"
-	"github.com/laurentbh/recipe/internal/service/parsing"
+	"github.com/laurentbh/recipe/internal/grpc/parsing"
 	"strings"
 
 	"github.com/rs/zerolog/log"

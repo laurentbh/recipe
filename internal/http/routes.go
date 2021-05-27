@@ -1,4 +1,4 @@
-package server
+package http
 
 // InitRoutes set all REST routes
 func (s *Server) InitRoutes() {
