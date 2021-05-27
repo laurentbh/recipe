@@ -1,0 +1,26 @@
+-- CREATE DATABASE recipe
+--   DEFAULT CHARACTER SET utf8
+--   DEFAULT COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS ingredient;
+CREATE TABLE ingredient (
+  id SERIAL
+, name VARCHAR(100)
+, PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+DROP TABLE IF EXISTS category;
+CREATE TABLE category (
+  id SERIAL
+, name VARCHAR(100)
+, PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+DROP TABLE ingredient_category;
+CREATE TABLE ingredient_category (
+  id SERIAL
+, ingredient_id BIGINT UNSIGNED NOT NULL
+, category_id BIGINT UNSIGNED NOT NULL
+, PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8 COLLATE utf8_bin;

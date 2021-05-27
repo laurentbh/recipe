@@ -13,3 +13,11 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# node
+node_modules
+
+# misc
+.idea
+.DS_Store
+*.code-workspace

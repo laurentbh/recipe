@@ -1,0 +1,132 @@
+
+import React, { useState, ChangeEvent, FormEvent, ChangeEventHandler } from "react";
+import Autosuggest, { AutosuggestProps } from "react-autosuggest";
+import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
+import { idText } from "typescript";
+import SearchResult from "../recipe/SearchResult";
+import './search.css'
+
+interface esResult {
+  _index : string,
+  _type :string,
+  _id : string,
+  _score : number,
+  fields: esFieldI
+}
+interface esFieldI {
+  title: string[]
+}
+interface suggestionI {
+  id: string,
+  value : string
+}
+const SearchTest = () => {
+
+  const [searchValue, setSearchValue] = useState("")
+  const [searchResults, setSearchResults] = useState<suggestionI[]>([]);
+
+
+  // TODO: should be const searchOnChange = (event : FormEvent<HTMLElement> ) => {
+  const searchOnChange = (event : any ) => {
+    console.log(event)
+    setSearchValue( event?.currentTarget.value)
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setSearchResults([])
+  }
+  const buildQuey = (where : string, search : string) : object => {
+    var ret = {
+      query : {
+        multi_match : {
+          query : search,
+          type: "bool_prefix",
+          fields: [
+            where,
+            where + "._2gram",
+            where + "._3gram"
+          ]
+        }
+      },
+      fields : [where],
+      _source: false
+    }
+    return ret;
+  }
+
+  async function postSearch () : Promise<any> {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(buildQuey("title", searchValue))
+    };
+
+    console.log(JSON.stringify(buildQuey("title", searchValue)))
+    const res= await fetch("http://localhost:9200/lol/_search", requestOptions)
+    const body = await res.json();
+     if (res.status !== 200) {
+        console.log("res: " + res.status + " body:"+ body.error);
+    }
+    else {
+      console.log("res: " + res.status + " body:"+ body)
+    }
+    return body;
+  }
+
+  const onSuggestionsFetchRequested = () => {
+    console.log("onSuggestionsFetchRequested for [" + searchValue + "]")
+    postSearch().then(res => {
+      const pay : esResult[] = res.hits.hits
+      const results = pay.map(
+        h  => {
+          return {
+            id : h._id,
+            value: h.fields.title[0]
+          }
+        }
+      )
+      console.log("results :" + results)
+      setSearchResults(results)
+      }
+    )
+  }
+
+  const focusInputOnSuggestionClick = true
+
+  const getSuggestionValue = (suggestion : any) => {
+   return suggestion.value;
+
+  }
+
+  const inputProps = {
+    placeholder: 'ingredient',
+    value: searchValue,
+    onChange: searchOnChange
+  }
+    return (
+      <div>
+        <Autosuggest
+          inputProps={inputProps}
+          suggestions={searchResults}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={RenderResults}
+          focusInputOnSuggestionClick={focusInputOnSuggestionClick}
+        />
+      </div> 
+    )
+}
+
+
+const RenderResults = (suggestion : suggestionI) => {
+  // console.log("RenderResults with " + suggestion )
+  return (
+    <div className="result">
+      {/* <div>[{suggestion.id}] {suggestion.value}</div> */}
+      <div>{suggestion.value}</div>
+    </div>
+  )
+}
+
+export default SearchTest

@@ -1,0 +1,106 @@
+MATCH (:Ingredient)-[r:Defined_By]->(:Category) DELETE r;
+MATCH (:Ingredient)-[r:Like]->(:Ingredient) DELETE r;
+
+MATCH (u:Category ) DELETE u;
+CREATE (n:Category{Name: "vegetable"});
+CREATE (n:Category{Name: "meat"});
+CREATE (n:Category{Name: "poultry"});
+// CREATE (n:Category{Name: "🍖 meat"});
+
+
+MATCH (u:Ingredient ) DELETE u;
+CREATE (n:Ingredient{Name: "beef"});
+CREATE (n:Ingredient{Name: "chicken"});
+CREATE (n:Ingredient{Name: "pig"});
+CREATE (n:Ingredient{Name: "green bean"});
+CREATE (n:Ingredient{Name: "long bean"});
+CREATE (n:Ingredient{Name: "bean"});
+CREATE (n:Ingredient{Name: "potato"});
+CREATE (n:Ingredient{Name: "duck", flavor:"strong"});
+// CREATE (n:Ingredient{Name: "🥩 beef"});
+// CREATE (n:Ingredient{Name: "🐔 chicken"});
+// CREATE (n:Ingredient{Name: "🐷 pig"});
+
+MATCH (i: Ingredient), (c: Category)
+WHERE i.Name CONTAINS "beef" AND c.Name CONTAINS "meat"
+CREATE (i) -[r: Defined_By] -> (c)
+RETURN r;
+
+MATCH (i: Ingredient), (c: Category)
+WHERE i.Name CONTAINS "chicken" AND c.Name CONTAINS "meat"
+CREATE (i) -[r: Defined_By] -> (c)
+RETURN r;
+
+MATCH (i: Ingredient), (c: Category)
+WHERE i.Name CONTAINS "chicken" AND c.Name CONTAINS "poultry"
+CREATE (i) -[r: Defined_By] -> (c)
+RETURN r;
+
+MATCH (i: Ingredient), (c: Category)
+WHERE i.Name CONTAINS "duck" AND c.Name CONTAINS "meat"
+CREATE (i) -[r: Defined_By] -> (c)
+RETURN r;
+
+MATCH (i: Ingredient), (c: Category)
+WHERE i.Name CONTAINS "duck" AND c.Name CONTAINS "poultry"
+CREATE (i) -[r: Defined_By] -> (c)
+RETURN r;
+
+MATCH (i: Ingredient), (c: Category)
+WHERE i.Name CONTAINS "bean" AND c.Name = "vegetable"
+CREATE (i) -[r: Defined_By] -> (c)
+RETURN r;
+
+MATCH (i: Ingredient), (c: Category)
+WHERE i.Name = "potato" AND c.Name = "vegetable"
+CREATE (i) -[r: Defined_By] -> (c)
+RETURN r;
+
+MATCH (i: Ingredient), (j: Ingredient )
+WHERE i.Name = "potato" AND j.Name = "bean"
+CREATE (i) -[r: Like] -> (j)
+RETURN r;
+
+MATCH (i:Ingredient) WHERE i.name CONTAINS "beef" RETURN i;
+
+CREATE CONSTRAINT cat_name_unique
+ON (n:Category)
+ASSERT n.Name IS UNIQUE;
+
+CREATE CONSTRAINT ing_name_unique
+ON (n:Ingredient)
+ASSERT n.Name IS UNIQUE;
+
+
+MATCH (u:Utensil ) DELETE u;
+CREATE (n:Utensil{Name: "bean cooker"});
+CREATE (n:Utensil{Name: "blender"});
+CREATE (n:Utensil{Name: "food processor"});
+
+
+CREATE (n:Ignore{Name: "a"});
+CREATE (n:Ignore{Name: "the"});
+CREATE (n:Ignore{Name: "some"});
+CREATE (n:Ignore{Name: "few"});
+
+CREATE CONSTRAINT mes_name_unique ON (n:Measure) ASSERT n.Name IS UNIQUE;
+
+CREATE (n:Measure{Name: "Teaspoon", Abbrev: ["tsp","t"], Oz: 0.1666, Ml: 4.92892});
+CREATE (n:Measure{Name: "Dessertspoon", Abbrev: ["dsp","dssp", "dstspn"], Oz: 0.3333, Ml: 9.85784});
+CREATE (n:Measure{Name: "Tablespoon", Abbrev: ["tbsp","T"], Oz: 0.5, Ml: 14.7868});
+CREATE (n:Measure{Name: "Fluid ounce", Abbrev: ["oz","fl.oz"], Ml: 29.5735, Oz: 1});
+CREATE (n:Measure{Name: "Teacup", Abbrev: ["tcf"], Oz: 4,  Ml: 118.294 });
+CREATE (n:Measure{Name: "Cup", Abbrev: ["C"], Oz: 8,  Ml: 236.588 });
+CREATE (n:Measure{Name: "Pint", Abbrev: ["pt"], Oz: 16,  Ml: 473.176 });
+CREATE (n:Measure{Name: "Quart", Abbrev: ["qt"], Oz: 32,  Ml: 946.353 });
+CREATE (n:Measure{Name: "Pottle", Abbrev: ["pot"], Oz: 64,  Ml: 1892.71 });
+CREATE (n:Measure{Name: "Gallon", Abbrev: ["gal"], Oz: 128,  Ml: 3,785.411});
+
+
+// DROP CONSTRAINT cat_name_unique
+
+
+
+// relation tests
+// MATCH (p)-[r]->(c)  WHERE p.Name="potato" RETURN p,r,c
+// MATCH (p)-[r]->(c)  WHERE ID(p)=13 RETURN p,r,c

@@ -1,0 +1,17 @@
+storage: mysql
+
+mysql:
+  host: testHost
+  user: root
+  password: root
+  database: recipe
+
+server:
+  port: 80
+
+logging:
+  consoleEnabled: false
+  jsonEnabled: true
+  directory: logDir
+  filename: recipeName
+  maxSize: 4

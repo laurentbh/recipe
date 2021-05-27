@@ -1,0 +1,7 @@
+#!/bin/bash
+curl -H "Content-Type:application/json" -v \
+-d '{
+"title" : "test",  
+"ingredients" : [ {"name" : "potato"}, {  "name" : "green beans"} ], 
+ "preparation" : "wash the potatoes and coock the beans"  }' \
+http://localhost:8080/recipe
