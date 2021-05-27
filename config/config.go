@@ -19,6 +19,7 @@ type AppConfig struct {
 	Server  ServerConfig
 	Logging LoggingConfig
 	Elastic ElasticConf
+	Grpc 	GrpcConfig
 }
 
 type LoggingConfig struct {
@@ -78,6 +79,13 @@ type ServerConfig struct {
 	Port int
 }
 
+type GrpcConfig struct {
+	Port int
+}
+func (g GrpcConfig) GetPort() int {
+	return g.Port
+}
+
 func (c AppConfig) GetStorageConfig() (interface{}, error) {
 	switch c.Storage {
 	case "neo4j":
@@ -104,6 +112,7 @@ func LoadConfig(filename string) (*AppConfig, error) {
 	setMySQLDefault()
 	setNeo4jDefault()
 	setElasticDefault()
+	setGrpcDefault()
 
 	if err := viper.Unmarshal(&cfg); err != nil {
 		return nil, err
@@ -122,6 +131,10 @@ func setNeo4jDefault() {
 
 func setElasticDefault() {
 	viper.SetDefault("elastic.host", "http://localhost:9200")
+}
+
+func setGrpcDefault() {
+	viper.SetDefault("grpc.port", "50052")
 }
 
 func (c AppConfig) GetHost() string {
