@@ -12,6 +12,9 @@ type RepositoryNeo struct {
 func New(db whiterabbit.DB) *RepositoryNeo {
 	return &RepositoryNeo{db: db}
 }
+func (r *RepositoryNeo) Disconnect() error {
+	return r.db.Close()
+}
 
 func (r *RepositoryNeo) FindByProperty(prop string, val string) ([]interface{}, error) {
 	con, err := r.db.GetConnection()

@@ -6,6 +6,7 @@ import (
 )
 
 type Repository interface {
+	Disconnect() error
 	FindByProperty(prop string, val string) ([]interface{}, error)
 	DeleteByID(id int64) error
 
