@@ -2,6 +2,9 @@ package config
 
 import (
 	"fmt"
+	"github.com/laurentbh/recipe/internal/entities/repositories"
+	"github.com/laurentbh/recipe/internal/entities/repositories/neo4j"
+	"github.com/laurentbh/whiterabbit"
 	"path/filepath"
 	"strings"
 
@@ -16,6 +19,7 @@ type AppConfig struct {
 	Server  ServerConfig
 	Logging LoggingConfig
 	Elastic ElasticConf
+	Grpc 	GrpcConfig
 }
 
 type LoggingConfig struct {
@@ -75,6 +79,13 @@ type ServerConfig struct {
 	Port int
 }
 
+type GrpcConfig struct {
+	Port int
+}
+func (g GrpcConfig) GetPort() int {
+	return g.Port
+}
+
 func (c AppConfig) GetStorageConfig() (interface{}, error) {
 	switch c.Storage {
 	case "neo4j":
@@ -101,6 +112,7 @@ func LoadConfig(filename string) (*AppConfig, error) {
 	setMySQLDefault()
 	setNeo4jDefault()
 	setElasticDefault()
+	setGrpcDefault()
 
 	if err := viper.Unmarshal(&cfg); err != nil {
 		return nil, err
@@ -121,6 +133,10 @@ func setElasticDefault() {
 	viper.SetDefault("elastic.host", "http://localhost:9200")
 }
 
+func setGrpcDefault() {
+	viper.SetDefault("grpc.port", "50052")
+}
+
 func (c AppConfig) GetHost() string {
 	return c.Neo4j.Host
 }
@@ -136,4 +152,20 @@ func (c AppConfig) GetPassword() string {
 }
 func (c AppConfig) GetEncrypted() bool {
 	return c.Neo4j.Encrypted
+}
+// GetRepository get instance of repository
+func (c AppConfig) GetRepository() (repositories.Repository, error) {
+	if c.Storage == "neo4j" {
+		db, err := whiterabbit.Open(c.Neo4j)
+		if err != nil {
+			return nil, err
+		}
+		// TODO: test the connection
+		//defer func() {
+		//	db.Close()
+		//}()
+
+		return neo4j.New(*db), nil
+	}
+	return nil, fmt.Errorf("storage %s not implemeted", c.Storage)
 }
