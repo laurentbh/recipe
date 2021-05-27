@@ -1,15 +1,12 @@
 package http
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/laurentbh/recipe/config"
 	logging "github.com/laurentbh/recipe/internal"
 	"github.com/laurentbh/recipe/internal/entities/repositories"
-	"github.com/laurentbh/recipe/internal/entities/repositories/neo4j"
 	"github.com/laurentbh/recipe/internal/storage"
 	"github.com/laurentbh/sse"
-	"github.com/laurentbh/whiterabbit"
 	"net/http"
 	"time"
 )
@@ -33,7 +30,7 @@ func New(config *config.AppConfig, logger *logging.Logger) (*Server, error) {
 	myClient.Timeout = 5 * time.Second
 
 	// connect to storages
-	repository, err := connectStorage(config)
+	repository, err := config.GetRepository()
 	if err != nil {
 		return nil, err
 	}
@@ -53,21 +50,6 @@ func New(config *config.AppConfig, logger *logging.Logger) (*Server, error) {
 		Sse:        sseServer,
 		Elastic: 	es,
 	}, nil
-}
-func connectStorage(config *config.AppConfig) (repositories.Repository, error) {
-	if config.Storage == "neo4j" {
-		db, err := whiterabbit.Open(config.Neo4j)
-		if err != nil {
-			return nil, err
-		}
-		// TODO: test the connection
-		//defer func() {
-		//	db.Close()
-		//}()
-
-		return neo4j.New(*db), nil
-	}
-	return nil, fmt.Errorf("storage %s not implemeted", config.Storage)
 }
 func createHttpClient() *http.Client {
 	t := http.DefaultTransport.(*http.Transport).Clone()

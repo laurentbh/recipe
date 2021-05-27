@@ -2,6 +2,9 @@ package config
 
 import (
 	"fmt"
+	"github.com/laurentbh/recipe/internal/entities/repositories"
+	"github.com/laurentbh/recipe/internal/entities/repositories/neo4j"
+	"github.com/laurentbh/whiterabbit"
 	"path/filepath"
 	"strings"
 
@@ -136,4 +139,20 @@ func (c AppConfig) GetPassword() string {
 }
 func (c AppConfig) GetEncrypted() bool {
 	return c.Neo4j.Encrypted
+}
+// GetRepository get instance of repository
+func (c AppConfig) GetRepository() (repositories.Repository, error) {
+	if c.Storage == "neo4j" {
+		db, err := whiterabbit.Open(c.Neo4j)
+		if err != nil {
+			return nil, err
+		}
+		// TODO: test the connection
+		//defer func() {
+		//	db.Close()
+		//}()
+
+		return neo4j.New(*db), nil
+	}
+	return nil, fmt.Errorf("storage %s not implemeted", c.Storage)
 }
