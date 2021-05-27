@@ -14,7 +14,7 @@ function initData(baseUrl: string, cb: Function, data: Map<string, Entity>): voi
         [
             loadEntity(baseUrl + '/ingredients'),
             loadEntity(baseUrl + '/categories'),
-            loadEntity(baseUrl + '/ustensils'),
+            loadEntity(baseUrl + '/utensils'),
             loadEntity(baseUrl + '/measures'),
         ]).then(responses => {
             responses.forEach(

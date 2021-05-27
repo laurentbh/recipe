@@ -16,7 +16,7 @@ const ContainerSse = () => {
     <div className="flex-container"> 
         <ListEntity type="Ingredient" data={ctx.data} />
         <ListEntity type="Category" data={ctx.data}/>
-        <ListEntity type="Ustensil" data={ctx.data} />
+        <ListEntity type="Utensil" data={ctx.data} />
     </div>
     )
 }

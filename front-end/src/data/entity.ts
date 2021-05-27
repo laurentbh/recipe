@@ -63,7 +63,7 @@ export class Entities {
             [
                 this.loadEntity(baseUrl+'/ingredients'),
                 this.loadEntity(baseUrl+'/categories'),
-                this.loadEntity(baseUrl+'/ustensils'),
+                this.loadEntity(baseUrl+'/utensils'),
                 this.loadEntity(baseUrl+'/measures'),
         ]).then(responses => {
             responses.forEach(
@@ -78,7 +78,7 @@ export class Entities {
     loadAll(baseUrl: string, cb : Function) {
         var barrier = new CountdownLatch(4);
         this.loadIngredient(barrier, baseUrl);
-        this.loadUstensils(barrier, baseUrl);
+        this.loadUtensils(barrier, baseUrl);
         this.loadMeasures(barrier, baseUrl);
         this.loadCategories(barrier, baseUrl);
         
@@ -104,14 +104,14 @@ export class Entities {
         })
         barrier.countDown();
     }
-    loadUstensils(barrier: CountdownLatch, baseUrl :string) {
-        let url = baseUrl + '/ustensils'
+    loadUtensils(barrier: CountdownLatch, baseUrl :string) {
+        let url = baseUrl + '/utensils'
         const ret = this.loadEntity(url)
         ret.then(res => {
             res.forEach(e => this.data.set(e.name, e))
         });
         ret.catch( err=> {
-            console.log("loadUstensils error")
+            console.log("loadUtensils error")
         })
         barrier.countDown();
     }

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Entities = [
     { label: "An Ingredient", entity: "Ingredient", style: "green" },
-    { label: "Ustensil", entity: "Ustensil", style: "gray" },
+    { label: "Utensil", entity: "Utensil", style: "gray" },
     { label: "Category", entity: "Category", style: "orange" },
     { label: "Measure", entity: "Measure", style: "blue" },
 ]
