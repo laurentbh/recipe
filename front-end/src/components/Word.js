@@ -10,7 +10,7 @@ let color = new Map([
   ["Ingredient", "#14fc10"],
   ["Category", "#2d43fe"],
   ["Ignore ", "#fa750e"],
-  ["Ustensil", "#f4f4f4"],
+  ["Utensil", "#f4f4f4"],
   ["ByPass", "#ffffff"],
   ["Measure", "#993300"]
 ]); 
@@ -40,7 +40,7 @@ const setStyle = (c) => {
           postURl += "/categories"
           break;
           case "3":
-          postURl += "/ustensils"
+          postURl += "/utensils"
           break;
           case "4":
           postURl += "/ignore"
@@ -94,7 +94,7 @@ const GenButton = ({words, cb}) => {
     <DropdownButton as={ButtonGroup} title="type" id="bg-nested-dropdown" onSelect={cb}>
     <Dropdown.Item eventKey="1" >Ingredient</Dropdown.Item>
     <Dropdown.Item eventKey="2" >Category</Dropdown.Item>
-    <Dropdown.Item eventKey="3" >Ustensil</Dropdown.Item>
+    <Dropdown.Item eventKey="3" >Utensil</Dropdown.Item>
     <Dropdown.Item eventKey="4" >Ignore</Dropdown.Item>
     <Dropdown.Item eventKey="5" disabled >Measure</Dropdown.Item>
   </DropdownButton>
@@ -105,7 +105,7 @@ const GenButton = ({words, cb}) => {
       <DropdownButton as={ButtonGroup} title="type" id="bg-nested-dropdown" >
         <Dropdown.Item eventKey="1" disabled active={words.entity==='Ingredient' ? "true":""}>Ingredient</Dropdown.Item>
         <Dropdown.Item eventKey="2" disabled active={words.entity==='Category' ? "true":""}>Category</Dropdown.Item>
-        <Dropdown.Item eventKey="3" disabled active={words.entity==='Ustensil' ? "true":""} >Ustensil</Dropdown.Item>
+        <Dropdown.Item eventKey="3" disabled active={words.entity==='Utensil' ? "true":""} >Utensil</Dropdown.Item>
         <Dropdown.Item eventKey="4" disabled active={words.entity==='Ignore' ? "true":""}>Ignore</Dropdown.Item>
         <Dropdown.Item eventKey="5" disabled active={words.entity==='Measure' ? "true":""}>Measure</Dropdown.Item>
       </DropdownButton>

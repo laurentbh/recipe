@@ -11,8 +11,8 @@ export const postEntity = (baseUrl, entity, word) => {
           case "Category":
           postURl += "/categories"
           break;
-          case "Ustensil":
-          postURl += "/ustensils"
+          case "Utensil":
+          postURl += "/utensils"
           break;
           case "4":
           postURl += "/ignore"

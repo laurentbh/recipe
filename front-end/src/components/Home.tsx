@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
 import sseContext from "./context/sse-context"
-import TimeInput from './TimeInput';
 import SearchTest from "./searches/SearchTest";
 
 type HomeProps = {
@@ -16,7 +15,7 @@ const Home:FunctionComponent<HomeProps> = (props) => {
                     <SearchTest />
                     <p>SSE isLoading: [{isLoading?"true":"false"}]</p>
                     <p>SSE data: {ctx.data.size}</p>
-                    <TimeInput />
+                    {/*<TimeInput editable={false} />*/}
 
                 </div>
             </div>

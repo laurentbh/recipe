@@ -1,15 +1,15 @@
-
 {
   "mappings": {
     "properties": {
       "title":  { "type": "text" },
       "ingredients": {
-          "type":  "text",
-          "fields" : {
-            "keyword" : {
+        "type":  "text",
+        "fields" : {
+          "keyword" : {
             "type" : "search_as_you_type"
-          },
-          "boost": 2 },
+          }
+        }
+      },
       "instruction": { "type": "text"},
       "total_time":  { "type": "integer" },
       "cook_time":   { "type": "integer", "index": false },

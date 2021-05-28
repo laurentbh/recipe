@@ -1,5 +1,6 @@
-import { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import  AddNewField  from "./RecipeNewField";
+import TimeInput from "../TimeInput";
 
 type FieldValueProps = {
     field : string;
@@ -26,13 +27,17 @@ export interface TimeSectionProps {
 const TimeSection = (params : TimeSectionProps ) => {
     // console.log(">>> TimeSection " + params.data["total_time"])
     const recipe = params.data
-    const na = (params.editable === true ? "":"n/a")
-    var total = (recipe["total_time"] !== undefined ? recipe["total_time"] : na)
-    var prep = (recipe["prep_time"] !== undefined ? recipe["prep_time"] : na)
-    var cook = (recipe["cook_time"] !== undefined ? recipe["cook_time"] : na)
+    const na = (params.editable === true ? "0":"0")
+    const total = (recipe["total_time"] !== undefined ? recipe["total_time"] : na)
+    const prep = (recipe["prep_time"] !== undefined ? recipe["prep_time"] : na)
+    const cook = (recipe["cook_time"] !== undefined ? recipe["cook_time"] : na)
 
     return (
         <div>
+            <TimeInput editable={params.editable} value={total} label={"total"} field={"total_time"} cb={params.cb} />
+            <TimeInput editable={params.editable} value={prep} label={"prep"} field={"prep_time"} cb={params.cb} />
+            <TimeInput editable={params.editable} value={cook} label={"cook"} field={"cook_time"} cb={params.cb} />
+
             <div className="field-field-total-time"><span className="search-recipe-field">total:</span>
             <FieldValue field="total_time" value={total} editable ={params.editable} cb={params.cb} />
             </div>
