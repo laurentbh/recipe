@@ -24,6 +24,7 @@
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-star-rating-component": "^1.4.1",
     "react-textarea-autosize": "^8.3.2",
     "react-tippy": "^1.4.0",
     "react-toast-notifications": "^2.4.4",
@@ -52,6 +53,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-autosuggest": "^10.1.4"
+    "@types/react-autosuggest": "^10.1.4",
+    "@types/react-star-rating-component": "^1.4.0"
   }
 }

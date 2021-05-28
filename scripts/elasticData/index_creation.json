@@ -13,7 +13,8 @@
       "instruction": { "type": "text"},
       "total_time":  { "type": "integer" },
       "cook_time":   { "type": "integer", "index": false },
-      "prep_time":   { "type": "integer", "index": false }
+      "prep_time":   { "type": "integer", "index": false },
+      "rating":      { "type": "keyword" }
     }
   }
 }

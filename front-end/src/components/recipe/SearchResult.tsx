@@ -1,4 +1,4 @@
-import { MouseEvent, useContext, useEffect, useState } from 'react';
+import React, { MouseEvent, useContext, useEffect, useState } from 'react';
 import appContext from "../context/app-context";
 import Recipe  from "./Recipe"
 import {
@@ -13,6 +13,8 @@ import {
 import 'react-accessible-accordion/dist/fancy-example.css';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import RecipeStars from "./RecipeStars";
+import RecipeTitle from "./RecipeTitle";
 
 const SearchResult = (data: any) => {
     useLocation();
@@ -56,26 +58,30 @@ const SearchResult = (data: any) => {
 
     }, [searchTerms, serverURL, ctx.recipeSearch])
 
-    var history = useHistory()
+    const history = useHistory()
     const handleClick = (e : MouseEvent<HTMLButtonElement>) => {
         history.push("/recipeLoad", e.currentTarget.id)
     }
     return (
         <div>
             {(() => {
-                if (results.length > 0) {
+                if (results.length > 1) {
                     return (
                         <Accordion allowMultipleExpanded={true}>
                             {results ? results.map(r => (
                                 <AccordionItem key={r.id}>
                                     <AccordionItemHeading>
                                         <AccordionItemButton>
-                                            {r.title}
-                                            {'           '}
-                                            <Button id={r.id} variant="secondary" size="sm" onClick={handleClick}>Zoom</Button>
-                                            {'    '} <Button variant="outline-danger" size="sm" disabled={true}>Delete</Button>
-                                            {'           '}
-                                            {r.id}
+                                            <RecipeTitle data={r} cb={handleClick} edit={false} />
+
+                                            {/*{r.title}*/}
+                                            {/*{'           '}*/}
+                                            {/*<RecipeStars editable={false} rating={r.rating} />*/}
+                                            {/*{'           '}*/}
+                                            {/*<Button id={r.id} variant="secondary" size="sm" onClick={handleClick}>Zoom</Button>*/}
+                                            {/*{'    '} <Button variant="outline-danger" size="sm" disabled={true}>Delete</Button>*/}
+                                            {/*{'           '}*/}
+                                            {/*{r.id}*/}
                                         </AccordionItemButton>
                                     </AccordionItemHeading>
                                     <AccordionItemPanel>
@@ -98,4 +104,5 @@ const SearchResult = (data: any) => {
         </div>
     )
 }
+
 export default SearchResult

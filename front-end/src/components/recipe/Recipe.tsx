@@ -1,9 +1,10 @@
-import { ChangeEvent, useContext, useState } from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import TextareaAutosize from 'react-textarea-autosize';
 import appContext from "../context/app-context";
 import { TimeSection, OtherSection, FieldValue } from "./RecipeSections";
+import RecipeStars from "./RecipeStars";
 // export interface RecipeI {
 //     id: string;
 //     title: string;
@@ -38,7 +39,7 @@ interface CommandI {
     recipe: any
 }
 const Command = (arg : CommandI) => {
-    var history = useHistory()
+    const history = useHistory()
     const handleClick = () => {
         if (arg.edit === false) {
             console.log("Zoom on :" + arg.recipeId)
@@ -61,7 +62,7 @@ const Command = (arg : CommandI) => {
             }
         }
     }
-    var onClickLabel = arg.edit ? "Save":"Zoom"
+    const onClickLabel = arg.edit ? "Save":"Zoom"
     return (
         <>
             <div>{arg.recipeId}</div>
@@ -97,7 +98,7 @@ const Recipe = (data: RecipeProps) => {
         }))
     }
 
-    var handleTextAreaChange = ( event: ChangeEvent<HTMLTextAreaElement> | null  ) => {
+    const handleTextAreaChange = ( event: ChangeEvent<HTMLTextAreaElement> | null  ) => {
         event?.persist()
         console.log("on " + event?.target.id + " -> " + event?.target.value)
         if (event?.target.id === "Ingredients") {
@@ -108,9 +109,9 @@ const Recipe = (data: RecipeProps) => {
         } 
         else {
             setRecipe((p:any) => ({
-            ...p, ["instruction"]: (event !== null ? event?.target.value: "")
-        }))
-    }
+                ...p, ["instruction"]: (event !== null ? event?.target.value: "")
+            }))
+        }
     }
     const handleSave = () => {
         if (recipeId !== "") {
@@ -169,6 +170,7 @@ const Recipe = (data: RecipeProps) => {
                             <TimeSection data={recipe} editable={data.editable} cb={FieldChangeCB} />
                         </Col>
                         <Col className={"result-recipe-ing-col search-recipe-section"} >
+                            <RecipeStars editable={data.editable} rating={recipe.rating} cb={FieldChangeCB} />
                             <OtherSection data={recipe} editable={data.editable} cb={FieldChangeCB} />
                         </Col>
                         {/* <Col>
