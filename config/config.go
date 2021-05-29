@@ -20,6 +20,7 @@ type AppConfig struct {
 	Logging LoggingConfig
 	Elastic ElasticConf
 	Grpc 	GrpcConfig
+	Images 	Images
 }
 
 type LoggingConfig struct {
@@ -45,6 +46,10 @@ type Neo4j struct {
 	Password  string
 	Port      int
 	Encrypted bool
+}
+
+type Images struct {
+	Location string
 }
 
 func (n Neo4j) GetHost() string {
@@ -117,7 +122,19 @@ func LoadConfig(filename string) (*AppConfig, error) {
 	if err := viper.Unmarshal(&cfg); err != nil {
 		return nil, err
 	}
+	if err := cfg.postProcessing(); err != nil {
+		return nil,err
+	}
 	return &cfg, nil
+}
+func (c *AppConfig) postProcessing() error {
+	if len(c.Images.Location) == 0 {
+		fmt.Errorf("image location is empty")
+	}
+	if c.Images.Location[len(c.Images.Location)-1] != '/' {
+		c.Images.Location = c.Images.Location + "/"
+	}
+	return nil
 }
 
 func setMySQLDefault() {

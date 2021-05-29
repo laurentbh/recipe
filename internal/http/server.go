@@ -18,6 +18,7 @@ type Server struct {
 	httpClient *http.Client
 	Sse        *sse.Server
 	Elastic    *storage.Elastic
+	config     config.AppConfig
 }
 
 func New(config *config.AppConfig, logger *logging.Logger) (*Server, error) {
@@ -49,6 +50,7 @@ func New(config *config.AppConfig, logger *logging.Logger) (*Server, error) {
 		Database:   repository,
 		Sse:        sseServer,
 		Elastic: 	es,
+		config: 	*config,
 	}, nil
 }
 func createHttpClient() *http.Client {

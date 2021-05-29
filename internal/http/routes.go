@@ -25,5 +25,8 @@ func (s *Server) InitRoutes() {
 	s.Router.PUT("/recipe/:id", s.UpdateRecipe)
 	s.Router.DELETE("/recipe/:id", s.DeleteRecipe)
 
+	s.Router.POST("/recipe/image", s.UploadImage)
+	s.Router.POST("/recipe/images", s.UploadImages)
+
 	s.Router.GET("/live", s.Live)
 }

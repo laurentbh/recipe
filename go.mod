@@ -9,6 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/golang/protobuf v1.5.0
+	github.com/google/uuid v1.2.0 // indirect
 	github.com/jinzhu/inflection v1.0.1-0.20210111022912-b5281034e75e
 	github.com/laurentbh/sse v0.1.2
 	github.com/laurentbh/whiterabbit v0.0.8

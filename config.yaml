@@ -27,3 +27,6 @@ logging:
   Directory: log
   Filename: recipe.log
   MaxSize: 1
+
+images:
+  Location: /Users/laurent/test-upload
