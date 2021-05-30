@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useContext } from 'react';
 import sseContext from "./context/sse-context"
 import SearchTest from "./searches/SearchTest";
+import ImagesUpload from "./images/ImagesUpload";
+import ImageOverlay from "../ImageOverlay";
 
 type HomeProps = {
 
@@ -16,6 +18,9 @@ const Home:FunctionComponent<HomeProps> = (props) => {
                     <p>SSE isLoading: [{isLoading?"true":"false"}]</p>
                     <p>SSE data: {ctx.data.size}</p>
                     {/*<TimeInput editable={false} />*/}
+
+                    <ImageOverlay />
+                    <ImagesUpload />
 
                 </div>
             </div>
