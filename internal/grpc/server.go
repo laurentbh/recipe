@@ -3,6 +3,7 @@ package grpc
 import (
 	"fmt"
 	"github.com/laurentbh/recipe/config"
+	logging "github.com/laurentbh/recipe/internal"
 	"github.com/laurentbh/recipe/internal/entities/repositories"
 	"github.com/laurentbh/recipe/internal/grpc/parsing"
 	handler "github.com/laurentbh/recipe/internal/grpc/service"
@@ -16,7 +17,7 @@ type RecipeGrpc struct {
 	listener net.Listener
 }
 
-func New(config config.AppConfig) (RecipeGrpc, error) {
+func New(config config.AppConfig, logger *logging.Logger) (RecipeGrpc, error) {
 	// start gRPC server
 	repo, err := config.GetRepository()
 	if err != nil {
@@ -30,7 +31,7 @@ func New(config config.AppConfig) (RecipeGrpc, error) {
 	if err != nil {
 		return RecipeGrpc{}, err
 	}
-	log.Printf("gRPC server listening on %v\n", port)
+	logger.Info().Msg("gRPC server listening on " + port)
 
 	server := grpc.NewServer()
 	parsing.RegisterParserServer(server, &ps)

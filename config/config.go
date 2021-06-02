@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/laurentbh/recipe/internal/entities/repositories"
 	"github.com/laurentbh/recipe/internal/entities/repositories/neo4j"
+	"github.com/laurentbh/recipe/internal/utils"
 	"github.com/laurentbh/whiterabbit"
 	"path/filepath"
 	"strings"
@@ -125,6 +126,8 @@ func LoadConfig(filename string) (*AppConfig, error) {
 	if err := cfg.postProcessing(); err != nil {
 		return nil,err
 	}
+	cfg.Neo4j.Host = utils.SubHostname(cfg.Neo4j.Host, "RECIPE_NEO_HOST")
+	cfg.Elastic.Host = utils.SubHostname(cfg.Elastic.Host, "RECIPE_ES_HOST")
 	return &cfg, nil
 }
 func (c *AppConfig) postProcessing() error {

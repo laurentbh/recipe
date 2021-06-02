@@ -11,7 +11,7 @@
 // @ts-nocheck
 
 
-// @ts-ignore
+
 const grpc = {};
 grpc.web = require('grpc-web');
 

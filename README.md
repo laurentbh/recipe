@@ -50,8 +50,14 @@ docker run -d -v "$(pwd)"/envoy.yaml:/etc/envoy/envoy.yaml:ro \
 docker run  -p 7474:7474 -p 7687:7687 neo4j:4.1.2
 ```
 
+## docker env variable
+override config with
+- `RECIPE_ES_HOST` for `elasticsearch` host
+- `RECIPE_NEO_HOST` for `neo4j` host
+
+note: port can't be changed
 ## docker volume
-create volumes for `neo4j` and `elasticsearch`
+create volumes for `neo4j`, `elasticsearch` and `images`
 ```
 docker volume create --driver local \
     --opt type=none \
@@ -63,6 +69,10 @@ docker volume create --driver local \
     --opt device=/Users/laurent/RecipeData/elastic \
     --opt o=bind recipe_elastic
 
+docker volume create --driver local \
+    --opt type=none \
+    --opt device=/Users/laurent/RecipeData/images \
+    --opt o=bind recipe_images
 ```
 
 ### for docker compose
@@ -77,3 +87,6 @@ not needed!!!
 
 # TODO
 `Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them`
+
+docker build . -t recipe
+docker run -p 8080:8080 recipe
