@@ -36,7 +36,7 @@ const SearchResult = (data: any) => {
         console.log(">>>> SearchResult.useEffect with [" + searchTerms + "]")
         // fetchRecipe(searchTerms)
         var list = ctx.recipeSearch.split(" ")
-        var postUrl = serverURL + "/recipe?ingredient="
+        var postUrl = serverURL + "/recipes?ingredient="
         for (let i = 0; i < list.length; i++) {
             const element = list[i];
             postUrl += element

@@ -1,4 +1,4 @@
-curl http://localhost:9200/food/recipe \
+curl http://localhost:9200/food/recipes \
 -H 'Content-Type: application/json' \
 -d '{
 "title": "Easy Whole-Wheat Pie Crust",
@@ -8,7 +8,7 @@ curl http://localhost:9200/food/recipe \
 '
 
 
-curl http://localhost:9200/food/recipe \
+curl http://localhost:9200/food/recipes \
 -H 'Content-Type: application/json' \
 -d '{
 "title": "Mousse Au Chocolat",
@@ -26,7 +26,7 @@ curl http://localhost:9200/food/recipe \
 
 
 
-curl http://localhost:9200/food/recipe \
+curl http://localhost:9200/food/recipes \
 -H 'Content-Type: application/json' \
 -d '{
 "title": "Bacon Cheddar Chive Biscuits",
@@ -48,7 +48,7 @@ curl http://localhost:9200/food/recipe \
 }
 '
 
-curl http://localhost:9200/food/recipe \
+curl http://localhost:9200/food/recipes \
 -H 'Content-Type: application/json' \
 -d '{
 "title": "Clementine Cake",
@@ -67,13 +67,13 @@ curl http://localhost:9200/food/recipe \
 }
 '
 
-curl -H 'Content-Type: application/json' http://localhost:8080/recipe \
+curl -H 'Content-Type: application/json' http://localhost:8080/recipes \
 -d '{
 "title": "test_1",
 "ingredients": ["ing1","ing2"]
 }'
 
-curl -X PUT -H 'Content-Type: application/json' http://localhost:8080/recipe/thgNJHkB7PxS6_2JhGzm \
+curl -X PUT -H 'Content-Type: application/json' http://localhost:8080/recipes/thgNJHkB7PxS6_2JhGzm \
 -d '{
 "title": "test_1",
 "ingredients": ["ing1","ing2", "ing3"]
@@ -87,4 +87,4 @@ curl -X POST -H 'Content-Type: application/json'  http://localhost:9200/food/_up
 }
 }'
 
-curl -X GET -H 'Accept: application/json' http://localhost:8080/recipe?ingredient=butter&ingredient=chocolate
+curl -X GET -H 'Accept: application/json' http://localhost:8080/recipes?ingredient=butter&ingredient=chocolate

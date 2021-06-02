@@ -35,7 +35,7 @@ const InputRecipe = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(recipe)
         };
-        fetch(serverUrl +'/recipe', requestOptions)
+        fetch(serverUrl +'/recipes', requestOptions)
             .then(response => response.json());
             // .then(data => setId(data.InsertedID));
 

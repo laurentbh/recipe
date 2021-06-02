@@ -16,7 +16,7 @@ const RecipeLoad = (props: any) => {
             method: 'GET',
             headers: { 'Accept': 'application/json' },
         };
-        fetch(ctx.serverURL + '/recipe/' + id, requestOptions)
+        fetch(ctx.serverURL + '/recipes/' + id, requestOptions)
             .then(response => response.json())
             .then(data => {
                 var arg: RecipeProps = { id: String(id), recipe: data, editable: true }

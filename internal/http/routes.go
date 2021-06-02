@@ -19,13 +19,13 @@ func (s *Server) InitRoutes() {
 
 	s.Router.GET("/measures", s.AllMeasures)
 
-	s.Router.POST("/recipe", s.NewRecipe)
-	s.Router.GET("/recipe", s.SearchRecipe)
-	s.Router.GET("/recipe/:id", s.RecipeById)
-	s.Router.PUT("/recipe/:id", s.UpdateRecipe)
-	s.Router.DELETE("/recipe/:id", s.DeleteRecipe)
+	s.Router.POST("/recipes", s.NewRecipe)
+	s.Router.GET("/recipes", s.SearchRecipe)
+	s.Router.GET("/recipes/:id", s.RecipeById)
+	s.Router.PUT("/recipes/:id", s.UpdateRecipe)
+	s.Router.DELETE("/recipes/:id", s.DeleteRecipe)
 
-	s.Router.POST("/recipe/images", s.UploadImages)
+	s.Router.POST("/recipes/images", s.UploadImages)
 
 	s.Router.GET("/live", s.Live)
 }

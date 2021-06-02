@@ -24,7 +24,7 @@ async function postRecipe( serverURL: string, recipe: any ): Promise<any> {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(recipe)
     };
-    const response = await fetch(serverURL + '/recipe', requestOptions)
+    const response = await fetch(serverURL + '/recipes', requestOptions)
     const body = await response.json();
     if (response.status !== 201) {
         alert(body.message)
@@ -53,7 +53,7 @@ const Command = (arg : CommandI) => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(arg.recipe)
                 };
-                fetch(arg.serverURL + '/recipe/' + arg.recipeId, requestOptions)
+                fetch(arg.serverURL + '/recipes/' + arg.recipeId, requestOptions)
                 .then(response => response.json())
             }
             else {
@@ -121,7 +121,7 @@ const Recipe = (data: RecipeProps) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(recipe)
             };
-            fetch(ctx.serverURL + '/recipe/' + recipeId, requestOptions)
+            fetch(ctx.serverURL + '/recipes/' + recipeId, requestOptions)
                 .then(response => response.json())
         }
         else {
@@ -134,7 +134,7 @@ const Recipe = (data: RecipeProps) => {
             const requestOptions = {
                 method: 'DELETE',
             };
-            fetch(ctx.serverURL + '/recipe/' + recipeId, requestOptions)
+            fetch(ctx.serverURL + '/recipes/' + recipeId, requestOptions)
                 .then(response => response.json())
     }
     return (

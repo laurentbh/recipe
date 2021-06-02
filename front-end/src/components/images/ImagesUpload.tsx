@@ -32,7 +32,7 @@ const ImagesUpload = (args : ImagesUploadI) => {
             // headers: { 'Content-Type': 'multipart/form-data'},
             body: formData,
         };
-        fetch(serverUrl+"/recipe/images", requestOptions)
+        fetch(serverUrl+"/recipes/images", requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log('Success:', result);
