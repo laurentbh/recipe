@@ -50,6 +50,12 @@ docker run -d -v "$(pwd)"/envoy.yaml:/etc/envoy/envoy.yaml:ro \
 docker run  -p 7474:7474 -p 7687:7687 neo4j:4.1.2
 ```
 
+## docker env variable
+override config with
+- `RECIPE_ES_HOST` for `elasticsearch` host
+- `RECIPE_NEO_HOST` for `neo4j` host
+
+note: port can't be changed
 ## docker volume
 create volumes for `neo4j`, `elasticsearch` and `images`
 ```

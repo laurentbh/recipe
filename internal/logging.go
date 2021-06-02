@@ -26,6 +26,8 @@ type Logger struct {
 func ConfigureLogger(config config.LoggingConfig) *Logger {
 	var writers []io.Writer
 
+	writers = append(writers, zerolog.ConsoleWriter{Out: os.Stdout})
+
 	if config.ConsoleEnabled {
 		writers = append(writers, zerolog.ConsoleWriter{Out: os.Stderr})
 	}
@@ -35,6 +37,7 @@ func ConfigureLogger(config config.LoggingConfig) *Logger {
 	mw := io.MultiWriter(writers...)
 
 	// zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	logger := zerolog.New(mw).With().Timestamp().Logger()
 
 	logger.Info().

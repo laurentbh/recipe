@@ -22,7 +22,7 @@ server:
   port: 8080
 
 logging:
-  ConsoleEnabled: true
+  ConsoleEnabled: false
   FileEnabled: false
   Directory: log
   Filename: recipe.log

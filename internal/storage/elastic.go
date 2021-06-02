@@ -32,6 +32,13 @@ func ConnectElastic(conf config.ElasticConf, logger *logging.Logger) (*Elastic, 
 		logger.Warn().Err(err)
 		return nil, err
 	}
+	res, err := client.Info()
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+	logger.Log().Msg(res.String())
+
 	return &Elastic{
 		client: client,
 		conf:   conf,

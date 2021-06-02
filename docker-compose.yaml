@@ -1,12 +1,28 @@
-version: '3'
+version: '3.5'
 
 volumes:
   recipe_elastic:
     external: true
   recipe_neo4j:
     external: true
+  recipe_images:
+    external: true
 
 services:
+  recipe:
+    image: recipe:latest
+    container_name: recipe-be
+    command: sh -c './wait-for http://es01:9200 -t 180 -- ./main'
+    depends_on:
+      - es01
+    ports:
+    - 8080:8080
+    volumes:
+    - recipe_images:/Users/laurent/test-upload
+    environment:
+      GIN_MODE: release
+      RECIPE_ES_HOST: es01
+      RECIPE_NEO_HOST: neo4j
   neo4j:
     image: neo4j:4.2.6
     hostname: neo4j
@@ -35,6 +51,7 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms750m -Xmx750m"
       # - node.name=es01
         # - cluster.name=es-docker-cluster
         # - discovery.seed_hosts=es01
@@ -50,6 +67,3 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-
-  networks:
-    recipe

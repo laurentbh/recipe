@@ -28,7 +28,7 @@ func main() {
 	mainLogger.Info().Msg("starting")
 
 	// start gRPC server
-	grpcS, err := recipegrpc.New(*cfg)
+	grpcS, err := recipegrpc.New(*cfg, mainLogger)
 	if err != nil {
 		log.Panic().Err(err).Msg("while gRPC instantiation")
 	}
@@ -47,7 +47,8 @@ func main() {
 	router.Use(cors.Default())
 	s, err := http.New(cfg, mainLogger)
 	if err != nil {
-		log.Panic().Err(err).Msg("Can't start")
+		//log.Panic().Err(err).Msg("Can't start")
+		mainLogger.Fatal().Err(err).Msg("Can't start")
 	}
 	//s.Elastic = es
 	//s.Sse = sseServer

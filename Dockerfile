@@ -29,6 +29,11 @@ WORKDIR /root/
 COPY --from=builder /app/main .
 COPY config.yaml .
 
+COPY wait-for wait-for
+RUN chmod +x wait-for
+# Add few tools
+RUN apk update && apk add --no-cache curl vim wget bash
+
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
