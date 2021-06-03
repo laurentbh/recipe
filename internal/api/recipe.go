@@ -27,7 +27,7 @@ type Recipe map[string]interface {}
 
 // Validate validate main fields are here and valid
 func (r *Recipe) Validate() error {
-	fields := []string{"title", "ingredients", "instructions"}
+	fields := []string{"title", "ingredients", "instruction"}
 	for _, f := range fields {
 		err := r.validateField(f)
 		if err != nil {
