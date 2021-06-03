@@ -2,13 +2,11 @@ package http
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/laurentbh/recipe/internal/api"
 	"net/http"
 	"path/filepath"
-	"strings"
 )
 
 func (s *Server) UploadImages(ctx *gin.Context) {
@@ -92,7 +90,7 @@ func (s *Server) UpdateRecipe(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
-	err = validateRecipe(recipe)
+	err = recipe.Validate()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
@@ -115,7 +113,7 @@ func (s *Server) NewRecipe(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
-	err = validateRecipe(recipe)
+	err = recipe.Validate()
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
@@ -129,26 +127,4 @@ func (s *Server) NewRecipe(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{"id": id})
 
 	return
-}
-
-func validateRecipe(recipe api.Recipe) error {
-	if len(strings.TrimSpace(recipe.Title)) == 0 {
-		return fmt.Errorf("recipe title is empty")
-	}
-	if len(strings.TrimSpace(recipe.Instruction)) == 0 {
-		return fmt.Errorf("recipe instruction is empty")
-	}
-	if len(recipe.Ingredients) == 0 {
-		return fmt.Errorf("recipe requires at least one ingredient")
-	}
-	var validIngredient = 0
-	for _, i := range recipe.Ingredients {
-		if len(strings.TrimSpace(i)) != 0 {
-			validIngredient++
-		}
-	}
-	if validIngredient == 0 {
-		return fmt.Errorf("recipe requires at least one ingredient")
-	}
-	return nil
 }
