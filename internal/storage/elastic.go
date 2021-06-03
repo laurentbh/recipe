@@ -46,10 +46,11 @@ func ConnectElastic(conf config.ElasticConf, logger *logging.Logger) (*Elastic, 
 }
 
 type updatePayload struct {
-	Doc api.Recipe `json:"doc"`
+	//Doc api.Recipe `json:"doc"`
+	Doc map[string]interface{} `json:"doc"`
 }
 
-func (es *Elastic) UpdateRecipe(ctx context.Context, recipe api.Recipe, id string) error {
+func (es *Elastic) UpdateRecipe(ctx context.Context, recipe map[string]interface{}, id string) error {
 
 	payload := updatePayload{Doc: recipe}
 	byteData, err := json.Marshal(payload)
