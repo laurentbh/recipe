@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: recipe-go-app
+spec:
+  hostNetwork: true
+  containers:
+    - name: recipe-be-pod
+      image: recipe/go-recipe:latest
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 8080
+      env:
+        - name: RECIPE_NEO_HOST
+          value: "192.168.1.40"
+        - name: RECIPE_ES_HOST
+          value: "192.168.1.40"
