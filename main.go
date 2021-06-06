@@ -45,6 +45,7 @@ func main() {
 	router.Use(logger.SetLogger(ginLogCfg))
 	//p.Use(router)
 	router.Use(cors.Default())
+	mainLogger.Info().Msg("Instantiate http server")
 	s, err := http.New(cfg, mainLogger)
 	if err != nil {
 		//log.Panic().Err(err).Msg("Can't start")

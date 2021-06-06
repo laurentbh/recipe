@@ -88,5 +88,6 @@ not needed!!!
 # TODO
 `Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them`
 
-docker build . -t recipe
-docker run -p 8080:8080 recipe
+docker build . -t recipe:latest
+docker  run -p 8080:8080 --env-file docker.env recipe-be:latest
+

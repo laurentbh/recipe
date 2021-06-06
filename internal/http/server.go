@@ -36,7 +36,7 @@ func New(config *config.AppConfig, logger *logging.Logger) (*Server, error) {
 		return nil, err
 	}
 
-	logger.Warn().Msg("Connecting to elastic : "  + config.Elastic.Host)
+	logger.Info().Msg("Connecting to elastic : "  + config.Elastic.Host)
 	es, err := storage.ConnectElastic(config.Elastic, logger)
 	if err != nil {
 		return nil, err
