@@ -12,7 +12,7 @@ services:
   recipe:
     image: recipe:latest
     container_name: recipe-be
-    command: sh -c './wait-for http://es01:9200 -t 180 -- ./main'
+    command: sh -c './wait-for http://es01:9200 -t 180; ./wait-for http://neo4j:7474  -- ./main'
     depends_on:
       - es01
     ports:
