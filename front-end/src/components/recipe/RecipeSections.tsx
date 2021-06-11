@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import  AddNewField  from "./RecipeNewField";
 import TimeInput from "../TimeInput";
+import {recipeReservedFields} from "./Recipe";
 
 type FieldValueProps = {
     field : string;
@@ -10,14 +11,13 @@ type FieldValueProps = {
   };
 
 const FieldValue = (params : FieldValueProps) => {
-    var handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
+    const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
         params.cb(event.target.id, event.currentTarget.value);
-     }
+    }
     if (params.editable) {
         return <input type="text" id={params.field} value={params.value} onChange={handleChange.bind(this)}/>
     }
     return <span>{params.value}</span> 
-
 }
 export interface TimeSectionProps {
     data: any;
@@ -61,9 +61,8 @@ export interface FieldSectionProps  {
     cb : ( k: string, v : string) => void;
 }
 const OtherSection = (param : FieldSectionProps) => {
-    let exclude: String[] = ["title", "total_time", "prep_time", "cook_time", "id", "ingredients", "instruction", "references"]
-    var jsx = Object.keys(param.data).map(key => {
-        if (!exclude.find(el => el === key)) {
+    const jsx = Object.keys(param.data).map(key => {
+        if (!recipeReservedFields.find(el => el === key)) {
             return <RecipeField key={key} name={key} value={param.data[key]} editable={param.editable} cb={param.cb} />
         }
         return <></>

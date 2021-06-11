@@ -3,12 +3,14 @@ import CheckIcon from '../../resources/check.svg';
 import CancelIcon from '../../resources/cancel.svg';
 import { ChangeEvent, useState } from 'react';
 import { FieldSectionProps } from './RecipeSections';
+import {recipeReservedFields} from "./Recipe";
 
 
 const AddNewField = (param : FieldSectionProps) => {
     const [show, setShow] = useState(false)
     const [newField, setNewField] = useState('')
     const [newValue, setNewValue] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const expand = () => { setShow(true) }
     const cancel = () => { 
         setNewField('')
@@ -16,12 +18,16 @@ const AddNewField = (param : FieldSectionProps) => {
         setShow(false)
     }
     const check = () => {
+        if (recipeReservedFields.indexOf(newField) > -1) {
+            setErrorMessage(newField + " is reserved");
+            return
+        }
         if (param.data[newField] !== undefined) {
-            console.log("field " + newField + " already exists")
+            setErrorMessage("Field already exists");
+            return
         }
-        else {
-            param.cb(newField, newValue)
-        }
+        param.cb(newField, newValue)
+        setErrorMessage('')
         setShow(false)
     }
 
@@ -35,6 +41,7 @@ const AddNewField = (param : FieldSectionProps) => {
                 <Input field={newField} val={newValue} fieldCB={setNewField} valCB={setNewValue}/>
                 <img style={{height:'16px', width: '16px'}} src={CheckIcon} alt="Save" onClick={check} />
                 <img style={{height:'16px', width: '16px'}} src={CancelIcon} alt="Cancel" onClick={cancel} />
+                {errorMessage}
             </div>
             }
         </div>

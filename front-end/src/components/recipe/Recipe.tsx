@@ -17,6 +17,8 @@ export interface RecipeProps {
     recipe: any;
     editable: boolean;
 }
+export const recipeReservedFields: String[] =
+    ["title", "total_time", "prep_time", "cook_time", "id", "ingredients", "instruction", "references", "rating"]
 
 async function postRecipe( serverURL: string, recipe: any ): Promise<any> {
     const requestOptions = {
