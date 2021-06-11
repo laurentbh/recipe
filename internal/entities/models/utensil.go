@@ -5,7 +5,7 @@ import "github.com/laurentbh/whiterabbit"
 // Utensil ...
 type Utensil struct {
 	whiterabbit.Model
-	Name string
+	Name string `json:"name"`
 }
 
 func (u Utensil) Id() int64 {

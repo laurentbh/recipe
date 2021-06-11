@@ -5,7 +5,7 @@ import "github.com/laurentbh/whiterabbit"
 // Category ...
 type Category struct {
 	whiterabbit.Model
-	Name string
+	Name string `json:"name"`
 }
 
 func (c Category) Id() int64 {

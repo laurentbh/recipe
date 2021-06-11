@@ -7,7 +7,7 @@ import (
 // Ignore ...
 type Ignore struct {
 	whiterabbit.Model
-	Name string
+	Name string `json:"name"`
 }
 
 func (i Ignore) Id() int64 {

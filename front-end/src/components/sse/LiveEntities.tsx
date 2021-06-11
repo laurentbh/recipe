@@ -18,19 +18,23 @@ const LiveEntities = (props:any) => {
         source.onmessage = (e) =>  {
             // data:{"action":"delete","data":{"domain":"ingredient","payload":{"id":29}}}
             // data:{"action":"new","data":{"domain":"ingredient","payload":{"id":34,"name":"wdsssdw22xwwwwwxqd2"}}}
-            var obj = JSON.parse(e.data)
-            var sseaction = obj.action
-            var domain = obj.data.domain
-            var payload = obj.data.payload
-            console.log("action:" + sseaction + " domain: " + domain + " id: "+ payload.id + " name:" + payload.Name)
+            const obj = JSON.parse(e.data)
+            console.log("json: " + obj);
+            let sseaction = obj.action
+            const domain = obj.data.domain
+            const payload = obj.data.payload
+            console.log("action:" + sseaction + " domain: " + domain + " id: "+ payload.id + " name:" + payload.name)
 
-            var tmpType = ''
+            let tmpType = ''
             switch (domain) {
                 case 'ingredient': 
                     tmpType = "Ingredient"
                     break;
                 case 'category':
                     tmpType = "Category"
+                    break;
+                case 'utensil':
+                    tmpType = "Utensil"
                     break;
                 default:
                     sseaction = 'ignore'
@@ -44,7 +48,7 @@ const LiveEntities = (props:any) => {
                     addToast('new ' + tmpType + ' : ' + payload.name, { appearance: 'info', autoDismiss: true});
                     break
                 case 'delete':
-                    var id = payload.id
+                    const id = payload.id
                     console.log("LiveEntities delete id " + id)
                     Array.from(ctx.data.entries()).map((entry) => {
                         const [, value] = entry;

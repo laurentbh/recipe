@@ -4,10 +4,10 @@ import "github.com/laurentbh/whiterabbit"
 
 type Measure struct {
 	whiterabbit.Model
-	Name   string
-	Abbrev []string
-	Oz     float64
-	Ml     float64
+	Name   string `json:"name"`
+	Abbrev []string `json:"abbrev"`
+	Oz     float64 `json:"oz"`
+	Ml     float64 `json:"ml"`
 }
 // Id
 func (m Measure) Id() int64 {
