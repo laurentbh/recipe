@@ -37,16 +37,6 @@ const TimeSection = (params : TimeSectionProps ) => {
             <TimeInput editable={params.editable} value={total} label={"total"} field={"total_time"} cb={params.cb} />
             <TimeInput editable={params.editable} value={prep} label={"prep"} field={"prep_time"} cb={params.cb} />
             <TimeInput editable={params.editable} value={cook} label={"cook"} field={"cook_time"} cb={params.cb} />
-
-            <div className="field-field-total-time"><span className="search-recipe-field">total:</span>
-            <FieldValue field="total_time" value={total} editable ={params.editable} cb={params.cb} />
-            </div>
-            <div><span className="search-recipe-field">prep:</span>
-            <FieldValue field="prep_time" value={prep} editable ={params.editable} cb={params.cb} />
-            </div>
-            <div><span className="search-recipe-field">cook:</span>
-            <FieldValue field="cook_time" value={cook} editable ={params.editable} cb={params.cb} />
-            </div>
         </div>
     )
 }
