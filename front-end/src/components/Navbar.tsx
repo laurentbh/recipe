@@ -12,7 +12,6 @@ import Home from './Home';
 import ParsingView from './ParsingView';
 import ContainerSse from './sse/ContainerSse';
 import Ingredient from './recipe/Ingredient';
-import RecipeEditor from './editor/RecipeEditor.js';
 import SearchResult from './recipe/SearchResult';
 import RecipeLoad from './recipe/RecipeLoad';
 import RecipeNew from './recipe/RecipeNew';
@@ -99,9 +98,9 @@ const BootstrapNavbar = () => {
                             <Route path="/sse">
                                 <ContainerSse />
                             </Route>
-                            <Route path="/editor">
-                                <RecipeEditor />
-                            </Route>
+                            {/*<Route path="/editor">*/}
+                            {/*    <RecipeEditor />*/}
+                            {/*</Route>*/}
                             <Route  path="/search">
                              {/* render={() => <SearchResult data={data} />}> */}
                                 <SearchResult />
