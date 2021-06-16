@@ -18,6 +18,7 @@ import RecipeNew from './recipe/RecipeNew';
 import appContext from './context/app-context';
 import Recipe from './recipe/Recipe'
 import Parent from "./TestState";
+import Editor from "./editor/Editor";
 
 
 const SearchNav = () => {
@@ -98,9 +99,9 @@ const BootstrapNavbar = () => {
                             <Route path="/sse">
                                 <ContainerSse />
                             </Route>
-                            {/*<Route path="/editor">*/}
-                            {/*    <RecipeEditor />*/}
-                            {/*</Route>*/}
+                            <Route path="/editor">
+                                <Editor />
+                            </Route>
                             <Route  path="/search">
                              {/* render={() => <SearchResult data={data} />}> */}
                                 <SearchResult />
