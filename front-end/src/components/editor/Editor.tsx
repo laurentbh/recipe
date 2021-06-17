@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, {useState, useCallback, useMemo, useContext} from 'react'
 import { Slate, Editable, withReact } from 'slate-react'
 import { Text, createEditor, Element as SlateElement, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
@@ -10,6 +10,8 @@ import './editor.css';
 import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 import RawToSLate, {ParseLine} from "./EditorUtils";
+import sseContext from "../context/sse-context";
+import {Entity} from "../../data/entity";
 
 type CustomElement = { type: 'paragraph'; children: CustomText[] }
 type CustomText = { text: string }
@@ -25,7 +27,6 @@ declare module 'slate' {
 
 // @ts-ignore
 const Leaf = ({ attributes, children, leaf }) => {
-    // console.log(">>> LEAF " + leaf.comment)
     return (
         <span
             {...attributes}
@@ -33,13 +34,21 @@ const Leaf = ({ attributes, children, leaf }) => {
             font-family: monospace;
             background: hsla(0, 0%, 100%, .5);
 
-        ${leaf.comment &&
-            css`
-            // padding: 32px;
-      background-color: hotpink;
-      // font-size: 24px;
-      border-radius: 4px;
-          `}
+            ${leaf.Ingredient &&
+                css`
+                background-color: lightgreen;
+                border-radius: 4px;
+            `}
+            ${leaf.Utensil &&
+                css`
+                background-color: lightgray;
+                border-radius: 4px;
+            `}
+            ${leaf.Category &&
+                css`
+                background-color: lightblue;
+                border-radius: 4px;
+            `}
          `}
         >
       {children}
@@ -47,14 +56,21 @@ const Leaf = ({ attributes, children, leaf }) => {
     )
 }
 const Editor = () => {
+    const  ctx  = useContext(sseContext);
+
     const [value, setValue] = useState<Descendant[]>(
-        RawToSLate("line 1 chicken\nline2\\tline3  chicken")
+        RawToSLate("bea")
         // initialValue
     )
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
     const [storage, setStorage] = useState('')
 
+    const getTokenType = (token : string) : string | undefined => {
+        const ent : Entity | undefined = ctx.data.get(token)
+        // console.log("token: " + token + "  -> " + ent?.type)
+        return ent !== undefined ? ent.type :  undefined
+    }
     const decorate = useCallback(
         ([node, path]) => {
             const ranges: any[] = []
@@ -68,20 +84,14 @@ const Editor = () => {
                 const length = token.length
                 const end = token.offset + length
 
-                if (token.value === "chicken") {
+                const type : string | undefined = getTokenType(token.value)
+                if (type !== undefined) {
                     ranges.push({
-                        ['comment']: true,
+                        [type]: true,
                         anchor: { path, offset: token.offset},
                         focus: { path, offset: end },
                     })
                 }
-                // if (typeof token !== 'string') {
-                //     ranges.push({
-                //         [token.type]: true,
-                //         anchor: { path, offset: start },
-                //         focus: { path, offset: end },
-                //     })
-                // }
                 start = end
             }
 
