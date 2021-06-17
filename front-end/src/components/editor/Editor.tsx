@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useMemo, useContext} from 'react'
 import { Slate, Editable, withReact } from 'slate-react'
-import { Text, createEditor, Node, Element as SlateElement, Descendant } from 'slate'
+import { Text, createEditor, Node, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -67,19 +67,18 @@ const Editor = () => {
     const [storage, setStorage] = useState('')
     const [serial, setSerial] = useState('')
 
-    const getTokenType = (token : string) : string | undefined => {
-        const ent : Entity | undefined = ctx.data.get(token)
-        // console.log("token: " + token + "  -> " + ent?.type)
-        return ent !== undefined ? ent.type :  undefined
-    }
+
     const decorate = useCallback(
         ([node, path]) => {
+            const getTokenType = (token : string) : string | undefined => {
+                const ent : Entity | undefined = ctx.data.get(token)
+                return ent !== undefined ? ent.type :  undefined
+            }
             const ranges: any[] = []
             if (!Text.isText(node)) {
                 return ranges
             }
             const tokens = ParseLine(node.text)
-            let start = 0
 
             for (const token of tokens) {
                 const length = token.length
@@ -93,20 +92,15 @@ const Editor = () => {
                         focus: { path, offset: end },
                     })
                 }
-                start = end
             }
-
             return ranges
-        }, []
+        }, [ctx.data]
     )
     const serialize = (nodes : Descendant[]) : string => {
         const str : string = nodes.map(n  => {
             console.log(n + "  " + Node.string(n))
-            // console.log(n + "  " + Des
-            // console.log(n + "  " + DefaultDeserializer()
             return Node.string(n)
-        })
-            .join('\n')
+        }).join('\n')
         return str
     }
     return (
@@ -121,10 +115,6 @@ const Editor = () => {
                    // console.log(children)
                     }
                }>
-            {/*<div>*/}
-            {/*    contentEditable={false}*/}
-            {/*    style={{ position: 'relative', top: '5px', right: '5px' }}*/}
-            {/*</div>*/}
             <Editable
                 decorate={decorate}
                 renderLeaf={renderLeaf}
