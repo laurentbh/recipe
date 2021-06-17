@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useMemo, useContext} from 'react'
 import { Slate, Editable, withReact } from 'slate-react'
-import { Text, createEditor, Element as SlateElement, Descendant } from 'slate'
+import { Text, createEditor, Node, Element as SlateElement, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
@@ -65,6 +65,7 @@ const Editor = () => {
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
     const [storage, setStorage] = useState('')
+    const [serial, setSerial] = useState('')
 
     const getTokenType = (token : string) : string | undefined => {
         const ent : Entity | undefined = ctx.data.get(token)
@@ -98,6 +99,16 @@ const Editor = () => {
             return ranges
         }, []
     )
+    const serialize = (nodes : Descendant[]) : string => {
+        const str : string = nodes.map(n  => {
+            console.log(n + "  " + Node.string(n))
+            // console.log(n + "  " + Des
+            // console.log(n + "  " + DefaultDeserializer()
+            return Node.string(n)
+        })
+            .join('\n')
+        return str
+    }
     return (
         <div>
         <Slate editor={editor} value={value}
@@ -105,6 +116,9 @@ const Editor = () => {
                    setValue(value)
                    const content = JSON.stringify(value)
                    setStorage(content)
+                   const children : Descendant[] = editor.children
+                   setSerial(serialize(children))
+                   // console.log(children)
                     }
                }>
             {/*<div>*/}
@@ -118,6 +132,7 @@ const Editor = () => {
             />
         </Slate>
             <textarea value={storage} />
+            <textarea value={serial} />
         </div>
     )
 }
