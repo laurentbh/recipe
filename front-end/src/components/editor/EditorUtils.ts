@@ -1,8 +1,11 @@
 import {Descendant} from "slate";
 
-const RawToSLate = (input : string) : Descendant[] => {
+const RawToSLate = (input : string | undefined) : Descendant[] => {
     let ret : Descendant[] = [];
 
+    if (input === undefined) {
+        input=""
+    }
     const lines = input.split("\n")
     lines.forEach(l  => {
         const item = "{\"type\":\"paragraph\", \"children\":[{\"text\":" +

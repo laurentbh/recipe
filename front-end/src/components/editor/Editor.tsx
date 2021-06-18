@@ -55,17 +55,19 @@ const Leaf = ({ attributes, children, leaf }) => {
     </span>
     )
 }
-const Editor = () => {
+interface EditorI {
+    data : string | undefined
+}
+const Editor = (arg : EditorI) => {
     const  ctx  = useContext(sseContext);
 
     const [value, setValue] = useState<Descendant[]>(
-        RawToSLate("bea")
-        // initialValue
+        RawToSLate(arg.data)
     )
     const renderLeaf = useCallback(props => <Leaf {...props} />, [])
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-    const [storage, setStorage] = useState('')
-    const [serial, setSerial] = useState('')
+    // const [storage, setStorage] = useState('')
+    // const [serial, setSerial] = useState('')
 
 
     const decorate = useCallback(
@@ -104,15 +106,14 @@ const Editor = () => {
         return str
     }
     return (
-        <div>
+        <div className={"editor-container"}>
         <Slate editor={editor} value={value}
                onChange={ (value) => {
                    setValue(value)
                    const content = JSON.stringify(value)
-                   setStorage(content)
+                   // setStorage(content)
                    const children : Descendant[] = editor.children
-                   setSerial(serialize(children))
-                   // console.log(children)
+                   // setSerial(serialize(children))
                     }
                }>
             <Editable
@@ -121,8 +122,8 @@ const Editor = () => {
                 placeholder="Write something ..."
             />
         </Slate>
-            <textarea value={storage} />
-            <textarea value={serial} />
+            {/*<textarea value={storage} />*/}
+            {/*<textarea value={serial} />*/}
         </div>
     )
 }
