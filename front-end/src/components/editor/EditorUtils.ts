@@ -1,6 +1,6 @@
 import {Descendant} from "slate";
 
-const RawToSLate = (input : string | undefined) : Descendant[] => {
+const RawToSLate = (input : string ) : Descendant[] => {
     let ret : Descendant[] = [];
 
     if (input === undefined) {

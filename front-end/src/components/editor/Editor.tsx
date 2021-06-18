@@ -56,7 +56,9 @@ const Leaf = ({ attributes, children, leaf }) => {
     )
 }
 interface EditorI {
-    data : string | undefined
+    id : string
+    data : string
+    dataCB : (id : string,  v: string) => void;
 }
 const Editor = (arg : EditorI) => {
     const  ctx  = useContext(sseContext);
@@ -99,8 +101,8 @@ const Editor = (arg : EditorI) => {
         }, [ctx.data]
     )
     const serialize = (nodes : Descendant[]) : string => {
+        console.log(">>> Editor.serialize")
         const str : string = nodes.map(n  => {
-            console.log(n + "  " + Node.string(n))
             return Node.string(n)
         }).join('\n')
         return str
@@ -112,8 +114,9 @@ const Editor = (arg : EditorI) => {
                    setValue(value)
                    const content = JSON.stringify(value)
                    // setStorage(content)
-                   const children : Descendant[] = editor.children
-                   // setSerial(serialize(children))
+                   const children : Descendant[] = editor.children;
+                   // arg.dataCB?(serialize(children))
+                   arg.dataCB(arg.id, serialize(children))
                     }
                }>
             <Editable

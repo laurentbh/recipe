@@ -100,7 +100,7 @@ const BootstrapNavbar = () => {
                                 <ContainerSse />
                             </Route>
                             <Route path="/editor">
-                                <Editor  data={undefined}/>
+                                <Editor  data={""} id={"dummy"} dataCB={(id:string, data:string)=>{}}/>
                             </Route>
                             <Route  path="/search">
                              {/* render={() => <SearchResult data={data} />}> */}

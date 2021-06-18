@@ -1,10 +1,10 @@
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
-import TextareaAutosize from 'react-textarea-autosize';
 import appContext from "../context/app-context";
 import { TimeSection, OtherSection, FieldValue } from "./RecipeSections";
 import RecipeStars from "./RecipeStars";
+import Editor from "../editor/Editor";
 // export interface RecipeI {
 //     id: string;
 //     title: string;
@@ -100,18 +100,17 @@ const Recipe = (data: RecipeProps) => {
         }))
     }
 
-    const handleTextAreaChange = ( event: ChangeEvent<HTMLTextAreaElement> | null  ) => {
-        event?.persist()
-        console.log("on " + event?.target.id + " -> " + event?.target.value)
-        if (event?.target.id === "Ingredients") {
-            const ings = event.target.value.split("\n")
+    const handleEditorChange = (id :string, data: string) : void => {
+        const split = data.split("\n")
+        console.log(">>> handleEditorChange " + data+ "-> " + split)
+        if (id === "Ingredients") {
             setRecipe((p:any) => ({
-                ...p, ["ingredients"]: ings
+                ...p, ["ingredients"]: split
             }))
-        } 
+        }
         else {
             setRecipe((p:any) => ({
-                ...p, ["instruction"]: (event !== null ? event?.target.value: "")
+                ...p, ["instruction"]: split
             }))
         }
     }
@@ -157,15 +156,9 @@ const Recipe = (data: RecipeProps) => {
             <Row >
                 <Col className={"result-recipe-ing-col"} >
                     <Row>
-                        <TextareaAutosize
-                            id="Ingredients"
-                            onChange={handleTextAreaChange} 
-                            readOnly={!data.editable}
-                            maxRows={6}
-                            maxLength={500}
-                            className={"result-recipe-ing-col"}
-                            defaultValue={recipe.ingredients.join("\n")}
-                        />
+                        <Editor data={recipe.ingredients.join("\n")}
+                                id={"Ingredients"}
+                                dataCB={handleEditorChange} />
                     </Row>
                     <Row>
                         <Col className={"result-recipe-ing-col search-recipe-section"} >
@@ -181,14 +174,9 @@ const Recipe = (data: RecipeProps) => {
                     </Row>
                 </Col>
                 <Col lg={true} >
-                    <TextareaAutosize
-                        id="Instruction"
-                        onChange={handleTextAreaChange} 
-                        readOnly={!data.editable}
-                        maxRows={10}
-                        className={"result-recipe-ing-col"}
-                        defaultValue={recipe.instruction}
-                    />
+                    <Editor data={recipe.instruction.join("\n")}
+                            id={"Instruction"}
+                            dataCB={handleEditorChange} />
                 </Col>
             </Row>
         </Container>
