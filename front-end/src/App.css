@@ -96,3 +96,10 @@
   align-items: center;
   /*alignment: center;*/
 }
+.editor-container {
+  border: 1px solid black;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: scroll;
+  text-align: left;
+}

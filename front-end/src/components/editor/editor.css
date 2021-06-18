@@ -9,4 +9,12 @@ div.DraftEditor-root {
   div.public-DraftEditor-content {
     height: 100%;
   }
-  
+ editor.ingredient {
+     backgroundColor: #99ddff;
+     border: 1px solid #0077b3;
+     borderRadius: 3px;
+     /*direction: ltr;*/
+     /*unicodeBidi: bidi-override;*/
+ }
+
+editor.default  {}

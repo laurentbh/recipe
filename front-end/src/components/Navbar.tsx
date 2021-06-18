@@ -12,13 +12,13 @@ import Home from './Home';
 import ParsingView from './ParsingView';
 import ContainerSse from './sse/ContainerSse';
 import Ingredient from './recipe/Ingredient';
-import RecipeEditor from './editor/RecipeEditor.js';
 import SearchResult from './recipe/SearchResult';
 import RecipeLoad from './recipe/RecipeLoad';
 import RecipeNew from './recipe/RecipeNew';
 import appContext from './context/app-context';
 import Recipe from './recipe/Recipe'
 import Parent from "./TestState";
+import Editor from "./editor/Editor";
 
 
 const SearchNav = () => {
@@ -100,7 +100,7 @@ const BootstrapNavbar = () => {
                                 <ContainerSse />
                             </Route>
                             <Route path="/editor">
-                                <RecipeEditor />
+                                <Editor  data={""} id={"dummy"} dataCB={(id:string, data:string)=>{}}/>
                             </Route>
                             <Route  path="/search">
                              {/* render={() => <SearchResult data={data} />}> */}
