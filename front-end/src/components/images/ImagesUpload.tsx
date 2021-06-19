@@ -1,6 +1,6 @@
 import React, {MouseEvent, useContext} from 'react';
-import ImageUploading, {ImageListType} from 'react-images-uploading';
-import {ImageType} from "react-images-uploading/dist/typings";
+import ImageUploading, {ImageListType} from '../ReactimageUploading/ReactImageUploading';
+import {ImageType} from '../ReactimageUploading/typings';
 import AppContext from "../context/app-context";
 
 interface ImagesUploadI {
