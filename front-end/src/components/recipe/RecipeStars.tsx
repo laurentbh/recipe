@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import StarRatingComponent from 'react-star-rating-component';
+import Rating from "../rating/Rating";
 interface  RecipeStarsI {
     editable : boolean
     rating : string
@@ -18,16 +18,24 @@ const RecipeStars = (params : RecipeStarsI) => {
             params.cb("rating", nextValue.toString())
         }
     }
+    const handleRating = (index : number ) => {
+        setRating(index)
+        if (params.cb !== undefined) {
+            params.cb("rating", index.toString())
+        }
+    }
     // dv-star-rating
     return (
-            <StarRatingComponent
-
-                editing={params.editable}
-                name="rate1"
-                starCount={5}
-                value={rating}
-                onStarClick={onStarClick.bind(this)}
-            />
+        <Rating
+            onClick={handleRating}
+            ratingValue={rating}
+            size={20}
+            editable={params.editable}
+            transition
+            fillColor='orange'
+            emptyColor='gray'
+            className='foo' // Will remove the inline style if applied
+        />
     );
 }
 export default RecipeStars
