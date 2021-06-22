@@ -65,7 +65,7 @@ const SearchResult = (data: any) => {
     return (
         <div>
             {(() => {
-                if (results.length > 1) {
+                if (results.length > 0) {
                     return (
                         <Accordion allowMultipleExpanded={true}>
                             {results ? results.map(r => (
