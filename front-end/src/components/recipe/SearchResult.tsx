@@ -86,6 +86,18 @@ const SearchResult = (data: any) => {
         setResults(data)
     }
     useEffect(() => {
+        async function handleResponse(res: Promise<Response>): Promise<void> {
+            const ok = (await res).ok
+            const status = (await res).status
+            if (ok) {
+                if (status == 200) {
+                    (await res).json()
+                        .then(data => resultLoaded(data))
+                } else {
+                    resultLoaded([])
+                }
+            }
+        }
         console.log(">>>> SearchResult.useEffect with [" + searchTerms + "]")
         // fetchRecipe(searchTerms)
         const list = ctx.recipeSearch.split(" ")
@@ -101,13 +113,8 @@ const SearchResult = (data: any) => {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         };
-        fetch(postUrl, requestOptions)
-            .then(response => response.json())
-            .then(data => resultLoaded(data))
-            .catch(err => {
-                   setError(err)
-                   console.log(err)
-            })
+        const res = fetch(postUrl, requestOptions)
+        handleResponse(res);
         return () => {}
 
     }, [searchTerms, serverURL, ctx.recipeSearch])
