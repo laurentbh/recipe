@@ -69,17 +69,20 @@ const RenderNoResults = (arg: RenderNoResultsI): JSX.Element => {
         </div>
     )
 }
-const SearchResult = (data: any) => {
+interface SearchResultI {
+    searchItems : string
+}
+const SearchResult = (arg : SearchResultI) => {
     useLocation();
 
     const ctx = useContext(appContext)
     const serverURL = ctx.serverURL
     const [loading, setLoading] = useState(true)
-    const [searchTerms] = useState(ctx.recipeSearch)
+    const [searchTerms] = useState(arg.searchItems)
     const [results, setResults] = useState<any[]>([]);
     const [error, setError] = useState("")
 
-    console.log(">>>> SearchResult with = [" + ctx.recipeSearch + "]")
+    console.log(">>>> SearchResult with = [" + arg.searchItems + "]")
 
     const resultLoaded = (data : any[]) : void => {
         setLoading(false)
@@ -100,7 +103,7 @@ const SearchResult = (data: any) => {
         }
         console.log(">>>> SearchResult.useEffect with [" + searchTerms + "]")
         // fetchRecipe(searchTerms)
-        const list = ctx.recipeSearch.split(" ")
+        const list = arg.searchItems.split(" ")
         let postUrl = serverURL + "/recipes?ingredient="
         for (let i = 0; i < list.length; i++) {
             const element = list[i];
@@ -117,7 +120,7 @@ const SearchResult = (data: any) => {
         handleResponse(res);
         return () => {}
 
-    }, [searchTerms, serverURL, ctx.recipeSearch])
+    }, [arg.searchItems, serverURL])
 
     const history = useHistory()
     const handleClick = (e : MouseEvent<HTMLButtonElement>) => {

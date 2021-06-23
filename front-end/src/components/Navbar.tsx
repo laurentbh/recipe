@@ -1,4 +1,4 @@
-import { MouseEvent, useContext, useState, ChangeEvent } from 'react'
+import { MouseEvent, useState, ChangeEvent } from 'react'
 
 import {
     BrowserRouter as Router,
@@ -15,22 +15,21 @@ import Ingredient from './recipe/Ingredient';
 import SearchResult from './recipe/SearchResult';
 import RecipeLoad from './recipe/RecipeLoad';
 import RecipeNew from './recipe/RecipeNew';
-import appContext from './context/app-context';
 import Recipe from './recipe/Recipe'
 import Parent from "./TestState";
 import Editor from "./editor/Editor";
 
-
-const SearchNav = () => {
-    const ctx = useContext(appContext)
+interface SearchNavI {
+    cb : (data: string) => void
+}
+const SearchNav = ( arg: SearchNavI ) => {
     const [searchText, setSearch] = useState('')
 
     const history = useHistory();
     const handleSearchSubmit = (btn : MouseEvent<HTMLElement>) => {
         if (searchText) {
-            console.log("pushing to ctx " + searchText)
+            arg.cb(searchText)
             history.push('/search')
-            ctx.recipeSearch = searchText
         } else {
             alert("Please enter some search text!");
         }
@@ -51,6 +50,10 @@ const SearchNav = () => {
 
 }
 const BootstrapNavbar = () => {
+    const textCb = (data : string) => {
+        setSearchText(data)
+    }
+    const [searchText, setSearchText] = useState('')
     return (
         <div>
             <div className="row">
@@ -71,13 +74,13 @@ const BootstrapNavbar = () => {
                                     <Nav.Link as={Link} to="/editor">Editor</Nav.Link>
                                     {/* <Nav.Link as={Link} to="/search">Search</Nav.Link> */}
                                 </Nav>
-                                <SearchNav />
+                                <SearchNav cb={textCb}/>
                             </Navbar.Collapse>
                         </Navbar>
                         <br />
                         <Switch>
                             <Route  path="/recipeAll">
-                                <SearchResult />
+                                <SearchResult searchItems={""}/>
                             </Route>
                             <Route exact path="/testState">
                                 <Parent />
@@ -93,8 +96,7 @@ const BootstrapNavbar = () => {
                                 <ParsingView />
                             </Route>
                             <Route path="/recipe">
-                                {/* <ContainerRecipe /> */}
-                                <RecipeNew /> 
+                                <RecipeNew />
                             </Route>
                             <Route path="/sse">
                                 <ContainerSse />
@@ -102,9 +104,8 @@ const BootstrapNavbar = () => {
                             <Route path="/editor">
                                 <Editor  data={""} id={"dummy"} dataCB={(id:string, data:string)=>{}}/>
                             </Route>
-                            <Route  path="/search">
-                             {/* render={() => <SearchResult data={data} />}> */}
-                                <SearchResult />
+                            <Route path="/search">
+                                <SearchResult searchItems={searchText} />
                             </Route>
                             <Route path="/recipeLoad">
                                 <RecipeLoad />
