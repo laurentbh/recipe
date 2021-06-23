@@ -1,42 +1,118 @@
-import React, { MouseEvent, useContext, useEffect, useState } from 'react';
+import React, {MouseEvent, useContext, useEffect, useState} from 'react';
 import appContext from "../context/app-context";
-import Recipe  from "./Recipe"
+import Recipe from "./Recipe"
 import {
     Accordion,
     AccordionItem,
-    AccordionItemHeading,
     AccordionItemButton,
+    AccordionItemHeading,
     AccordionItemPanel,
 } from 'react-accessible-accordion';
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import 'react-accessible-accordion/dist/fancy-example.css';
-import { useHistory, useLocation } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import RecipeStars from "./RecipeStars";
+import {useHistory, useLocation} from 'react-router-dom';
 import RecipeTitle from "./RecipeTitle";
+import {PacmanLoader} from "react-spinners";
+// import JSX = jsx.JSX;
+// import PacmanLoader from "react-spinners/PacmanLoader";
 
-const SearchResult = (data: any) => {
+const RenderWaiting = () : JSX.Element => {
+    return (
+        <PacmanLoader color={"green"} size={15} margin={5} />
+    )
+}
+interface  RenderResultsI {
+    results : any[],
+    cb : (e : MouseEvent<HTMLButtonElement>) => void,
+    error? : string | undefined
+
+}
+const RenderResults = (arg : RenderResultsI) : JSX.Element => {
+    return (
+        <div>
+        {
+        (arg.results.length > 0)  ? <RenderList results={arg.results} cb={arg.cb} />
+            : <RenderNoResults error = {arg.error} />
+        }
+        </div>
+    )
+}
+
+const RenderList = (arg : RenderResultsI) : JSX.Element => {
+    return (
+        <Accordion allowMultipleExpanded={true}>
+            {arg.results ? arg.results.map(r => (
+                <AccordionItem key={r.id}>
+                    <AccordionItemHeading>
+                        <AccordionItemButton>
+                            <RecipeTitle data={r} cb={arg.cb} edit={false} />
+                        </AccordionItemButton>
+                    </AccordionItemHeading>
+                    <AccordionItemPanel>
+                        <Recipe recipe={r} editable={false} />
+                    </AccordionItemPanel>
+                </AccordionItem>
+            )) : null}
+        </Accordion>
+    )
+}
+interface RenderNoResultsI {
+    error ? : string | undefined
+}
+const RenderNoResults = (arg: RenderNoResultsI): JSX.Element => {
+    return (
+        <div>
+            <div>{arg.error}</div>
+
+            <div>no results</div>
+        </div>
+    )
+}
+interface SearchResultI {
+    searchItems : string
+}
+const SearchResult = (arg : SearchResultI) => {
     useLocation();
 
     const ctx = useContext(appContext)
     const serverURL = ctx.serverURL
-    // const [searchKey, setSearchKey] = useState(String(location.key))
-    // const [searchTerms, setSearchTerms] = useState(String(location.state))
-    const [searchTerms] = useState(ctx.recipeSearch)
+    const [loading, setLoading] = useState(true)
+    const [searchTerms] = useState(arg.searchItems)
     const [results, setResults] = useState<any[]>([]);
-    const [error] = useState("")
+    const [error, setError] = useState("")
 
-    // console.log(">>>> SearchResult with location= [" + String(location.state) + "]")
-    console.log(">>>> SearchResult with = [" + ctx.recipeSearch + "]")
+    console.log(">>>> SearchResult with = [" + arg.searchItems + "]")
 
-    // setSearchTerms(String(location.state))
-    // setSearchKey(String(location.key))
+    const resultLoaded = (data : any[]) : void => {
+        setLoading(false)
+        setResults(data)
+    }
     useEffect(() => {
+        async function handleResponse(res: Promise<Response>): Promise<void> {
+            const ok = (await res).ok
+            const status = (await res).status
+            if (ok) {
+                if (status === 200) {
+                    (await res).json()
+                        .then(data => resultLoaded(data))
+                } else {
+                    resultLoaded([])
+                }
+            }
+            else {
+                (await res).text()
+                    .then(err => {
+                        setLoading(false)
+                        setError(err)
+                    })
+            }
+
+        }
         console.log(">>>> SearchResult.useEffect with [" + searchTerms + "]")
         // fetchRecipe(searchTerms)
-        var list = ctx.recipeSearch.split(" ")
-        var postUrl = serverURL + "/recipes?ingredient="
+        const list = arg.searchItems.split(" ")
+        let postUrl = serverURL + "/recipes?ingredient="
         for (let i = 0; i < list.length; i++) {
             const element = list[i];
             postUrl += element
@@ -48,15 +124,11 @@ const SearchResult = (data: any) => {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         };
-        fetch(postUrl, requestOptions)
-            .then(response => response.json())
-            .then(data => setResults(data))
-            .catch(err => {
-                console.log(err) 
-            })
+        const res = fetch(postUrl, requestOptions)
+        handleResponse(res);
         return () => {}
 
-    }, [searchTerms, serverURL, ctx.recipeSearch])
+    }, [arg.searchItems, serverURL])
 
     const history = useHistory()
     const handleClick = (e : MouseEvent<HTMLButtonElement>) => {
@@ -64,43 +136,10 @@ const SearchResult = (data: any) => {
     }
     return (
         <div>
-            {(() => {
-                if (results.length > 1) {
-                    return (
-                        <Accordion allowMultipleExpanded={true}>
-                            {results ? results.map(r => (
-                                <AccordionItem key={r.id}>
-                                    <AccordionItemHeading>
-                                        <AccordionItemButton>
-                                            <RecipeTitle data={r} cb={handleClick} edit={false} />
-
-                                            {/*{r.title}*/}
-                                            {/*{'           '}*/}
-                                            {/*<RecipeStars editable={false} rating={r.rating} />*/}
-                                            {/*{'           '}*/}
-                                            {/*<Button id={r.id} variant="secondary" size="sm" onClick={handleClick}>Zoom</Button>*/}
-                                            {/*{'    '} <Button variant="outline-danger" size="sm" disabled={true}>Delete</Button>*/}
-                                            {/*{'           '}*/}
-                                            {/*{r.id}*/}
-                                        </AccordionItemButton>
-                                    </AccordionItemHeading>
-                                    <AccordionItemPanel>
-                                        <Recipe recipe={r} editable={false} />
-                                    </AccordionItemPanel>
-                                </AccordionItem>
-                            )) : null}
-                        </Accordion>
-                    )
-                } else {
-                    return (
-                        <div>
-                        <div>{error}</div>
-                        
-                        <div>no results </div>
-                        </div>
-                    )
-                }
-            })()}
+            {
+                loading  ? <RenderWaiting />
+                    : <RenderResults results={results} cb={handleClick} error={error} />
+            }
         </div>
     )
 }

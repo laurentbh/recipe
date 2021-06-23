@@ -1,14 +1,13 @@
-import React, { useEffect, useState, FunctionComponent} from "react";
+import React, {FunctionComponent, useEffect, useState} from "react";
 import appContext from "./app-context";
 import sseContext from "./sse-context";
 import {Entity} from "../../data/entity"
 import initData from './loader'
 
 
-type AppStateProps = {
-}
-const AppState:FunctionComponent<AppStateProps> = (props) => {
-  
+type AppStateProps = {}
+const AppState: FunctionComponent<AppStateProps> = (props) => {
+
   const ctx = React.useContext(appContext);
   const sCtx = React.useContext(sseContext);
 
@@ -18,31 +17,30 @@ const AppState:FunctionComponent<AppStateProps> = (props) => {
 
   const serverUrl = ctx.serverURL
 
-  
-  const loadCB = () => {
-    console.log("loadCB() sCtx " + sCtx.data.size)
-    setLoading(false)
-    setData(sCtx.data)
-  }
+  useEffect(() => {
+    const loadCB = () => {
+      console.log("loadCB() sCtx " + sCtx.data.size)
+      setLoading(false)
+      setData(sCtx.data)
+    }
 
-  useEffect( () => {
     console.log("AppState.useEffect ...");
     initData(serverUrl, loadCB, sCtx.data)
     setData(sCtx.data)
     // console.log("right after initData " + sseCtx.data.size)
     // ctx.entities.loadAll2(serverUrl, loadCB);
     console.log("... AppState.useEffect");
-  }, [sCtx]);
+  }, [sCtx, serverUrl]);
   return (
-    <appContext.Provider
-      value={ctx}
-    >
-      <sseContext.Provider
-        value={{isLoading:loading, data, size: dataSize, setSize: setDataSize }}
+      <appContext.Provider
+          value={ctx}
       >
-        {props.children}
-      </sseContext.Provider>
-    </appContext.Provider>
+        <sseContext.Provider
+            value={{isLoading: loading, data, size: dataSize, setSize: setDataSize}}
+        >
+          {props.children}
+        </sseContext.Provider>
+      </appContext.Provider>
   );
 };
 

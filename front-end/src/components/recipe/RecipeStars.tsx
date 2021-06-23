@@ -12,12 +12,12 @@ const RecipeStars = (params : RecipeStarsI) => {
         }
     )
 
-    const onStarClick = (nextValue:number, prevValue:number, name:string) => {
-        setRating(nextValue);
-        if (params.cb !== undefined) {
-            params.cb("rating", nextValue.toString())
-        }
-    }
+    // const onStarClick = (nextValue:number, prevValue:number, name:string) => {
+    //     setRating(nextValue);
+    //     if (params.cb !== undefined) {
+    //         params.cb("rating", nextValue.toString())
+    //     }
+    // }
     const handleRating = (index : number ) => {
         setRating(index)
         if (params.cb !== undefined) {
