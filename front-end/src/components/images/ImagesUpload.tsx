@@ -22,7 +22,6 @@ const ImagesUpload = (args : ImagesUploadI) => {
         const formData = new FormData();
         console.log("Click nb images = " + images.length)
         for (let i=0; i< images.length; i++ ) {
-            const what = images[i].file
             console.log(i + " --> " + images[i])
             formData.append('upload[]', images[i].file!);
         }

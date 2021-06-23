@@ -1,5 +1,5 @@
 import {Button, OverlayTrigger, Popover, PopoverContent, PopoverTitle} from "react-bootstrap";
-import React, {useState} from "react";
+import React from "react";
 import ImagesUpload from "./components/images/ImagesUpload";
 import CancelIcon from './resources/cancel.svg';
 import CheckIcon from './resources/check.svg';

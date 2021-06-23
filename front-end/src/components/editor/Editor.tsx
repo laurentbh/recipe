@@ -112,7 +112,6 @@ const Editor = (arg : EditorI) => {
         <Slate editor={editor} value={value}
                onChange={ (value) => {
                    setValue(value)
-                   const content = JSON.stringify(value)
                    // setStorage(content)
                    const children : Descendant[] = editor.children;
                    // arg.dataCB?(serialize(children))

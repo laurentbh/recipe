@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import appContext from "../context/app-context";
 import { TimeSection, OtherSection, FieldValue } from "./RecipeSections";
 import RecipeStars from "./RecipeStars";
@@ -34,45 +34,45 @@ async function postRecipe( serverURL: string, recipe: any ): Promise<any> {
     return body;
   }
 
-interface CommandI {
-    serverURL : string
-    recipeId : string;
-    edit : boolean;
-    recipe: any
-}
-const Command = (arg : CommandI) => {
-    const history = useHistory()
-    const handleClick = () => {
-        if (arg.edit === false) {
-            console.log("Zoom on :" + arg.recipeId)
-            history.push("/recipeLoad", arg.recipeId)
-        }
-        else {
-            if (arg.recipeId !== "" ) {
-                console.log("Update on :" + arg.recipeId)
-                const requestOptions = {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(arg.recipe)
-                };
-                fetch(arg.serverURL + '/recipes/' + arg.recipeId, requestOptions)
-                .then(response => response.json())
-            }
-            else {
-                console.log("Save new recipe")
-                postRecipe(arg.serverURL, arg.recipe)
-            }
-        }
-    }
-    const onClickLabel = arg.edit ? "Save":"Zoom"
-    return (
-        <>
-            <div>{arg.recipeId}</div>
-            <Button variant="outline-primary" size="sm" onClick={handleClick}>{onClickLabel}</Button>{'    '}
-            <Button variant="outline-danger" size="sm" disabled={true}>Delete</Button>
-        </>
-    )
-}
+// interface CommandI {
+//     serverURL : string
+//     recipeId : string;
+//     edit : boolean;
+//     recipe: any
+// }
+// const Command = (arg : CommandI) => {
+//     const history = useHistory()
+//     const handleClick = () => {
+//         if (arg.edit === false) {
+//             console.log("Zoom on :" + arg.recipeId)
+//             history.push("/recipeLoad", arg.recipeId)
+//         }
+//         else {
+//             if (arg.recipeId !== "" ) {
+//                 console.log("Update on :" + arg.recipeId)
+//                 const requestOptions = {
+//                     method: 'PUT',
+//                     headers: { 'Content-Type': 'application/json' },
+//                     body: JSON.stringify(arg.recipe)
+//                 };
+//                 fetch(arg.serverURL + '/recipes/' + arg.recipeId, requestOptions)
+//                 .then(response => response.json())
+//             }
+//             else {
+//                 console.log("Save new recipe")
+//                 postRecipe(arg.serverURL, arg.recipe)
+//             }
+//         }
+//     }
+//     const onClickLabel = arg.edit ? "Save":"Zoom"
+//     return (
+//         <>
+//             <div>{arg.recipeId}</div>
+//             <Button variant="outline-primary" size="sm" onClick={handleClick}>{onClickLabel}</Button>{'    '}
+//             <Button variant="outline-danger" size="sm" disabled={true}>Delete</Button>
+//         </>
+//     )
+// }
 
 // export interface FieldChangeI {
 //     key: string;
@@ -147,7 +147,7 @@ const Recipe = (data: RecipeProps) => {
                         <FieldValue field="title" value={recipe.title} editable={true} cb={FieldChangeCB} />
                         {'                     '}
                         <Button variant="outline-primary" size="sm" onClick={handleSave}>Save</Button>
-                        {recipeId != "" &&
+                        {recipeId !== "" &&
                             <Button variant="danger" size="sm" onClick={handleDelete}>Delete</Button>
                         }
                     </Col>

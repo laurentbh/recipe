@@ -93,13 +93,21 @@ const SearchResult = (arg : SearchResultI) => {
             const ok = (await res).ok
             const status = (await res).status
             if (ok) {
-                if (status == 200) {
+                if (status === 200) {
                     (await res).json()
                         .then(data => resultLoaded(data))
                 } else {
                     resultLoaded([])
                 }
             }
+            else {
+                (await res).text()
+                    .then(err => {
+                        setLoading(false)
+                        setError(err)
+                    })
+            }
+
         }
         console.log(">>>> SearchResult.useEffect with [" + searchTerms + "]")
         // fetchRecipe(searchTerms)
