@@ -82,7 +82,7 @@ const Recipe = (data: RecipeProps) => {
     const ctx = useContext(appContext)
     const location = useLocation()
     if (location.state !== undefined) {
-        // comming from RecipeLoad container
+        // coming from RecipeLoad container
         data = location.state as RecipeProps
     }
     // const [recipeId] = useState(data.recipe["id"])
@@ -123,7 +123,12 @@ const Recipe = (data: RecipeProps) => {
                 body: JSON.stringify(recipe)
             };
             fetch(ctx.serverURL + '/recipes/' + recipeId, requestOptions)
-                .then(response => response.json())
+                .then(response => response.status)
+                .then(status => {
+                    if (status !== 200) {
+                        alert("Something went wrong")
+                    }
+                })
         }
         else {
             console.log("Save new recipe")
@@ -136,7 +141,12 @@ const Recipe = (data: RecipeProps) => {
                 method: 'DELETE',
             };
             fetch(ctx.serverURL + '/recipes/' + recipeId, requestOptions)
-                .then(response => response.json())
+                .then(response => response.status)
+                .then(status => {
+                    if (status !== 200) {
+                        alert("Something went wrong")
+                    }
+                })
     }
     return (
         <Container fluid={true}>
