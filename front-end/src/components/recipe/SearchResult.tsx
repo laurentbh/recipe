@@ -1,21 +1,13 @@
 import React, {MouseEvent, useContext, useEffect, useState} from 'react';
 import appContext from "../context/app-context";
 import Recipe from "./Recipe"
-import {
-    Accordion,
-    AccordionItem,
-    AccordionItemButton,
-    AccordionItemHeading,
-    AccordionItemPanel,
-} from 'react-accessible-accordion';
 
 // Demo styles, see 'Styles' section below for some notes on use.
 import 'react-accessible-accordion/dist/fancy-example.css';
 import {useHistory, useLocation} from 'react-router-dom';
 import RecipeTitle from "./RecipeTitle";
 import {PacmanLoader} from "react-spinners";
-// import JSX = jsx.JSX;
-// import PacmanLoader from "react-spinners/PacmanLoader";
+import {Accordion, AccordionContext, Card, useAccordionToggle} from "react-bootstrap";
 
 const RenderWaiting = () : JSX.Element => {
     return (
@@ -39,20 +31,38 @@ const RenderResults = (arg : RenderResultsI) : JSX.Element => {
     )
 }
 
+interface CustomToggleI {
+    children: any
+    eventKey : string
+}
+const CustomToggle = (arg : CustomToggleI) => {
+    const decoratedOnClick = useAccordionToggle(arg.eventKey, () => {} );
+    const currentEventKey = useContext(AccordionContext);
+    const isCurrentEventKey = currentEventKey === arg.eventKey;
+    return (
+        <button
+            type="button"
+            style={{  backgroundColor: isCurrentEventKey ? 'gray' : 'lightgray' }}
+            onClick={decoratedOnClick}
+        >
+            {arg.children}
+        </button>
+    );
+}
 const RenderList = (arg : RenderResultsI) : JSX.Element => {
     return (
-        <Accordion allowMultipleExpanded={true}>
-            {arg.results ? arg.results.map(r => (
-                <AccordionItem key={r.id}>
-                    <AccordionItemHeading>
-                        <AccordionItemButton>
+        <Accordion >
+            {arg.results ? arg.results.map((r, index) => (
+                    <Card>
+                        <CustomToggle eventKey={String(index)} >
                             <RecipeTitle data={r} cb={arg.cb} edit={false} />
-                        </AccordionItemButton>
-                    </AccordionItemHeading>
-                    <AccordionItemPanel>
-                        <Recipe recipe={r} editable={false} />
-                    </AccordionItemPanel>
-                </AccordionItem>
+                        </CustomToggle>
+                        <Accordion.Collapse eventKey={String(index)}>
+                            <Card.Body>
+                                <Recipe recipe={r} editable={false} />
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
             )) : null}
         </Accordion>
     )
