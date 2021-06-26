@@ -103,3 +103,10 @@
   overflow-y: scroll;
   text-align: left;
 }
+
+.my-nav-bar {
+  display: flex;
+  /*flex-direction: column;*/
+  flex-wrap: nowrap;
+/*padding-left: 0;*/
+}
