@@ -110,3 +110,17 @@
   flex-wrap: nowrap;
 /*padding-left: 0;*/
 }
+
+.recipe-title-star {
+  width: 150px;
+  flex: 1 1 auto;
+  text-align: left;
+}
+.recipe-title-title {
+  flex: 1 1 auto;
+  text-align: left;
+}
+.recipe-title-control {
+  flex: 1 1 auto;
+  text-align: right;
+}

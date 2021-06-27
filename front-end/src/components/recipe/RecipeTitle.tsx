@@ -12,14 +12,17 @@ const RecipeTitle = (params: TitleI) => {
     const onClickLabel = params.edit ? "Save":"Zoom"
     return (
         <div className={"accordionTitle"}>
-            {params.data.title}
-            <div>{'           '}</div>
-            <RecipeStars editable={false} rating={params.data.rating} />
-            {'           '}
-            <Button id={params.data.id} variant="secondary" size="sm" onClick={params.cb}>{onClickLabel}</Button>
-            {'    '} <Button variant="outline-danger" size="sm" disabled={true}>Delete</Button>
-            {'           '}
-            {params.data.id}
+            <div className="recipe-title-star">
+                <RecipeStars editable={false} rating={params.data.rating} />
+            </div>
+            <div className="recipe-title-title">
+                {params.data.title}
+            </div>
+            <div className="recipe-title-control">
+                <Button id={params.data.id} variant="secondary" size="sm" onClick={params.cb}>{onClickLabel}</Button>
+                <Button variant="outline-danger" size="sm" disabled={true}>Delete</Button>
+                {params.data.id}
+            </div>
         </div>
     )
 }
