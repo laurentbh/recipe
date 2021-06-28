@@ -5,8 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/laurentbh/recipe/internal/api"
+	"github.com/laurentbh/recipe/internal/utils"
 	"net/http"
 	"path/filepath"
+	"sort"
 )
 
 func (s *Server) UploadImages(ctx *gin.Context) {
@@ -78,6 +80,8 @@ func (s *Server) SearchRecipe(ctx *gin.Context) {
 		ctx.Status(http.StatusNoContent)
 		return
 	}
+	sort.Sort(utils.ByTitle(recipes))
+
 	ctx.JSON(http.StatusOK, recipes)
 	return
 }
