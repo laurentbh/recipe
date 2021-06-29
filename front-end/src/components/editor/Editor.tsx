@@ -12,6 +12,7 @@ import { ReactEditor } from 'slate-react'
 import RawToSLate, {ParseLine} from "./EditorUtils";
 import sseContext from "../context/sse-context";
 import {Entity} from "../../data/entity";
+import HoveringToolbar from "./HoveringToolbar";
 
 type CustomElement = { type: 'paragraph'; children: CustomText[] }
 type CustomText = { text: string }
@@ -118,6 +119,7 @@ const Editor = (arg : EditorI) => {
                    arg.dataCB(arg.id, serialize(children))
                     }
                }>
+            <HoveringToolbar />
             <Editable
                 decorate={decorate}
                 renderLeaf={renderLeaf}

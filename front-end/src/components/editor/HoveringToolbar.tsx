@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, Ref, PropsWithChildren } from "react";
 import ReactDOM from "react-dom";
 import {ReactEditor, useSlate} from "slate-react";
-/** @jsx jsx */
 import { jsx, css, Global, ClassNames } from '@emotion/react'
 
 import {
@@ -13,7 +12,7 @@ import {
     Descendant,
 } from 'slate'
 import { Range } from 'slate'
-import {Button, Icon} from "./components";
+import {Button, Icon, Portal} from "./components";
 
 const HoveringToolbar = () => {
     const ref = useRef<HTMLDivElement | null>()
@@ -51,33 +50,30 @@ const HoveringToolbar = () => {
 
     return (
         <Portal>
-            <Menu
-                {...ref}
-                className={css`
-          padding: 8px 7px 6px;
-          position: absolute;
-          z-index: 1;
-          top: -10000px;
-          left: -10000px;
-          margin-top: -6px;
-          opacity: 0;
-          background-color: #222;
-          border-radius: 4px;
-          transition: opacity 0.75s;
-        `}
-            >
+        {/*    <Menu*/}
+        {/*        // @ts-ignore*/}
+        {/*        ref={ref}*/}
+        {/*        className={css`*/}
+        {/*  padding: 8px 7px 6px;*/}
+        {/*  position: absolute;*/}
+        {/*  z-index: 1;*/}
+        {/*  top: -10000px;*/}
+        {/*  left: -10000px;*/}
+        {/*  margin-top: -6px;*/}
+        {/*  opacity: 0;*/}
+        {/*  background-color: #222;*/}
+        {/*  border-radius: 4px;*/}
+        {/*  transition: opacity 0.75s;*/}
+        {/*`}*/}
+        {/*    >*/}
                 <FormatButton format="bold" icon="format_bold" />
                 <FormatButton format="italic" icon="format_italic" />
                 <FormatButton format="underlined" icon="format_underlined" />
-            </Menu>
+        {/*    </Menu>*/}
         </Portal>
     )
 }
-export const Portal = ( children:any ) => {
-    return typeof document === 'object'
-        ? ReactDOM.createPortal(children, document.body)
-        : null
-}
+
 interface BaseProps {
     className: string
     [key: string]: unknown
@@ -92,8 +88,8 @@ export const Menu = React.forwardRef(
             {({ css, cx }) => (
         <div
             {...props}
-            {...ref}
-            // ref={ref}
+            // @ts-ignore
+            ref={ref}
             className={cx(
                 className,
                 css`
@@ -146,3 +142,4 @@ const FormatButton = ( format : any, icon : any ) => {
         </Button>
     )
 }
+export default HoveringToolbar
