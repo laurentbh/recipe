@@ -3,7 +3,7 @@ import appContext from "../context/app-context";
 import Recipe from "./Recipe"
 
 // Demo styles, see 'Styles' section below for some notes on use.
-import 'react-accessible-accordion/dist/fancy-example.css';
+// import 'react-accessible-accordion/dist/fancy-example.css';
 import {useHistory, useLocation} from 'react-router-dom';
 import RecipeTitle from "./RecipeTitle";
 import {PacmanLoader} from "react-spinners";
